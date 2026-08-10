@@ -3,6 +3,7 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import ForgotPassword from "../pages/ForgotPassword";
 import Dashboard from "../pages/Dashboard";
+import ResumeEditor from "../pages/ResumeEditor";
 import ProtectedRoute from "./ProtectedRoute";
 
 export default function AppRoutes() {
@@ -18,6 +19,15 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/resume/:id"
+          element={
+            <ProtectedRoute>
+              <ResumeEditor />
             </ProtectedRoute>
           }
         />
