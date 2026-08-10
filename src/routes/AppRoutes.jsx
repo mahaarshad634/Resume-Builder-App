@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import ForgotPassword from "../pages/ForgotPassword";
+import Dashboard from "../pages/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 
 export default function AppRoutes() {
@@ -16,7 +17,7 @@ export default function AppRoutes() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <h2>Dashboard (coming in Step 7)</h2>
+              <Dashboard />
             </ProtectedRoute>
           }
         />
