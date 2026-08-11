@@ -1,6 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Spinner, Alert, Navbar, Form } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
+import ResumeForm from "../features/resume/ResumeForm";
+import ResumePreview from "../features/resume/ResumePreview";
 import { useResume } from "../hooks/useResume";
 
 export default function ResumeEditor() {
@@ -54,20 +56,16 @@ export default function ResumeEditor() {
       </Navbar>
 
       <Container fluid>
-        <Row>
-          <Col md={6} className="mb-4">
-            <h5>Edit Resume</h5>
-            <p className="text-muted">
-              Section components will go here — coming in Step 9.
-            </p>
-          </Col>
-          <Col md={6} className="mb-4">
-            <h5>Live Preview</h5>
-            <p className="text-muted">
-              Preview will go here — coming in Step 10.
-            </p>
-          </Col>
-        </Row>
+      <Row>
+  <Col md={6} className="mb-4">
+    <h5>Edit Resume</h5>
+    <ResumeForm resumeData={resumeData} updateSection={updateSection} />
+  </Col>
+  <Col md={6} className="mb-4">
+    <h5>Live Preview</h5>
+    <ResumePreview resumeData={resumeData} />
+  </Col>
+</Row>
       </Container>
     </>
   );
