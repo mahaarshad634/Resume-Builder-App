@@ -1,8 +1,14 @@
+import { forwardRef } from "react";
 import { templateRegistry } from "./templates/templateRegistry";
 
-
-export default function ResumePreview({ resumeData }) {
+const ResumePreview = forwardRef(({ resumeData }, ref) => {
   const Template = templateRegistry[resumeData.templateId] || templateRegistry.classic;
 
-  return <Template data={resumeData} />
-};
+  return (
+    <div ref={ref}>
+      <Template data={resumeData} />
+    </div>
+  );
+});
+
+export default ResumePreview;
