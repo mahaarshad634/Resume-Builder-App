@@ -8,13 +8,14 @@ const errorMessages = {
   "auth/email-already-in-use": "An account with this email already exists.",
   "auth/weak-password": "Password should be at least 6 characters.",
   "auth/invalid-email": "Please enter a valid email address.",
+  "auth/popup-closed-by-user": "Sign-in was cancelled.",
 };
 
 export default function SignupForm() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const [firebaseError, setFirebaseError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const { signup } = useAuth();
+  const { signup, loginWithGoogle, loginWithGithub } = useAuth();
   const navigate = useNavigate();
 
   const password = watch("password");
@@ -32,6 +33,26 @@ export default function SignupForm() {
     }
   };
 
+  const handleGoogleSignup = async () => {
+    setFirebaseError("");
+    try {
+      await loginWithGoogle();
+      navigate("/dashboard");
+    } catch (err) {
+      setFirebaseError(errorMessages[err.code] || "Google sign-in failed. Please try again.");
+    }
+  };
+
+  const handleGithubSignup = async () => {
+    setFirebaseError("");
+    try {
+      await loginWithGithub();
+      navigate("/dashboard");
+    } catch (err) {
+      setFirebaseError(errorMessages[err.code] || "GitHub sign-in failed. Please try again.");
+    }
+  };
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)} noValidate>
       {firebaseError && <Alert variant="danger">{firebaseError}</Alert>}
@@ -41,6 +62,7 @@ export default function SignupForm() {
         <Form.Control
           type="email"
           placeholder="you@example.com"
+          autoComplete="email"
           isInvalid={!!errors.email}
           {...register("email", { required: "Email is required" })}
         />
@@ -54,6 +76,7 @@ export default function SignupForm() {
         <Form.Control
           type="password"
           placeholder="At least 6 characters"
+          autoComplete="new-password"
           isInvalid={!!errors.password}
           {...register("password", {
             required: "Password is required",
@@ -70,6 +93,7 @@ export default function SignupForm() {
         <Form.Control
           type="password"
           placeholder="Re-enter your password"
+          autoComplete="new-password"
           isInvalid={!!errors.confirmPassword}
           {...register("confirmPassword", {
             required: "Please confirm your password",
@@ -83,6 +107,19 @@ export default function SignupForm() {
 
       <Button type="submit" variant="primary" className="w-100 mb-3" disabled={submitting}>
         {submitting ? "Creating account..." : "Sign Up"}
+      </Button>
+
+      <div className="d-flex align-items-center mb-3">
+        <hr className="flex-grow-1" />
+        <span className="px-2 text-muted small">or</span>
+        <hr className="flex-grow-1" />
+      </div>
+
+      <Button variant="outline-secondary" className="w-100 mb-2" onClick={handleGoogleSignup}>
+        Continue with Google
+      </Button>
+      <Button variant="outline-dark" className="w-100 mb-3" onClick={handleGithubSignup}>
+        Continue with GitHub
       </Button>
 
       <div className="text-center">

@@ -9,13 +9,14 @@ const errorMessages = {
   "auth/wrong-password": "Incorrect password.",
   "auth/invalid-credential": "Invalid email or password.",
   "auth/too-many-requests": "Too many attempts. Try again later.",
+  "auth/popup-closed-by-user": "Sign-in was cancelled.",
 };
 
 export default function LoginForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [firebaseError, setFirebaseError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const { login } = useAuth();
+  const { login, loginWithGoogle, loginWithGithub } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = async ({ email, password }) => {
@@ -31,6 +32,26 @@ export default function LoginForm() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setFirebaseError("");
+    try {
+      await loginWithGoogle();
+      navigate("/dashboard");
+    } catch (err) {
+      setFirebaseError(errorMessages[err.code] || "Google sign-in failed. Please try again.");
+    }
+  };
+
+  const handleGithubLogin = async () => {
+    setFirebaseError("");
+    try {
+      await loginWithGithub();
+      navigate("/dashboard");
+    } catch (err) {
+      setFirebaseError(errorMessages[err.code] || "GitHub sign-in failed. Please try again.");
+    }
+  };
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)} noValidate>
       {firebaseError && <Alert variant="danger">{firebaseError}</Alert>}
@@ -40,6 +61,7 @@ export default function LoginForm() {
         <Form.Control
           type="email"
           placeholder="you@example.com"
+          autoComplete="email"
           isInvalid={!!errors.email}
           {...register("email", { required: "Email is required" })}
         />
@@ -53,6 +75,7 @@ export default function LoginForm() {
         <Form.Control
           type="password"
           placeholder="Your password"
+          autoComplete="current-password"
           isInvalid={!!errors.password}
           {...register("password", { required: "Password is required" })}
         />
@@ -63,6 +86,19 @@ export default function LoginForm() {
 
       <Button type="submit" variant="primary" className="w-100 mb-3" disabled={submitting}>
         {submitting ? "Logging in..." : "Log In"}
+      </Button>
+
+      <div className="d-flex align-items-center mb-3">
+        <hr className="flex-grow-1" />
+        <span className="px-2 text-muted small">or</span>
+        <hr className="flex-grow-1" />
+      </div>
+
+      <Button variant="outline-secondary" className="w-100 mb-2" onClick={handleGoogleLogin}>
+        Continue with Google
+      </Button>
+      <Button variant="outline-dark" className="w-100 mb-3" onClick={handleGithubLogin}>
+        Continue with GitHub
       </Button>
 
       <div className="d-flex justify-content-between">

@@ -5,6 +5,9 @@ import {
   signOut,
   sendPasswordResetEmail,
   onAuthStateChanged,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../services/firebase";
 
@@ -38,6 +41,16 @@ export function AuthProvider({ children }) {
     return sendPasswordResetEmail(auth, email);
   };
 
+  const loginWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    return signInWithPopup(auth, provider);
+  };
+
+  const loginWithGithub = () => {
+    const provider = new GithubAuthProvider();
+    return signInWithPopup(auth, provider);
+  };
+
   const value = {
     user,
     loading,
@@ -45,6 +58,8 @@ export function AuthProvider({ children }) {
     login,
     logout,
     resetPassword,
+    loginWithGoogle,
+    loginWithGithub,
   };
 
   return (
