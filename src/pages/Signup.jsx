@@ -1,20 +1,17 @@
 import { Container, Row, Col, Card } from "react-bootstrap";
 import SignupForm from "../features/auth/SignupForm";
-import ResumePreview from "../features/resume/ResumePreview";
 
 export default function Signup() {
   return (
     <Container>
-     <Row>
-  <Col md={6} className="mb-4">
-    <h5>Edit Resume</h5>
-    <ResumeForm resumeData={resumeData} updateSection={updateSection} />
-  </Col>
-  <Col md={6} className="mb-4">
-    <h5>Live Preview</h5>
-    <ResumePreview resumeData={resumeData} />
-  </Col>
-</Row>
+      <Row className="justify-content-center mt-5">
+        <Col xs={12} md={6} lg={4}>
+          <Card className="p-4">
+            <h3 className="mb-3 text-center">Create Account</h3>
+            <SignupForm />
+          </Card>
+        </Col>
+      </Row>
     </Container>
   );
 }
