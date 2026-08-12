@@ -87,3 +87,143 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--color-accent);
   margin-right: 6px;
 }
+
+/* ---- Form controls ---- */
+.form-control,
+.form-select {
+  border-color: var(--color-border);
+  font-family: var(--font-body);
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(31, 75, 76, 0.12);
+}
+.form-label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--color-ink);
+  margin-bottom: 0.35rem;
+}
+
+/* ---- Alerts: quieter, more editorial than default Bootstrap ---- */
+.alert {
+  border: 1px solid transparent;
+  border-radius: 6px;
+}
+.alert-danger {
+  background-color: #fdf2f2;
+  border-color: #f3d6d6;
+  color: #8a2c2c;
+}
+.alert-info {
+  background-color: #f0f4f4;
+  border-color: var(--color-border);
+  color: var(--color-ink);
+}
+.alert-secondary {
+  background-color: var(--color-bg);
+  border-color: var(--color-border);
+  color: var(--color-muted);
+}
+
+/* ---- Badges (used by Skills chips) ---- */
+.badge.bg-secondary {
+  background-color: var(--color-bg) !important;
+  color: var(--color-ink) !important;
+  border: 1px solid var(--color-border);
+  font-weight: 500;
+  font-family: var(--font-body);
+}
+
+/* ---- Modal ---- */
+.modal-content {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(26, 34, 51, 0.15);
+}
+.modal-header {
+  border-bottom-color: var(--color-border);
+}
+.modal-header .modal-title {
+  font-family: var(--font-heading);
+}
+.modal-footer {
+  border-top-color: var(--color-border);
+}
+.btn-danger {
+  background-color: #a13a3a;
+  border-color: #a13a3a;
+}
+.btn-danger:hover {
+  background-color: #8a2c2c;
+  border-color: #8a2c2c;
+}
+
+/* ---- Dropdown (used by ResumeCard's Actions menu) ---- */
+.dropdown-menu {
+  border-color: var(--color-border);
+  box-shadow: 0 4px 16px rgba(26, 34, 51, 0.08);
+}
+.dropdown-item:hover {
+  background-color: var(--color-bg);
+}
+.dropdown-item.text-danger:hover {
+  background-color: #fdf2f2;
+}
+
+/* ---- Spinner ---- */
+.spinner-border.text-primary,
+.spinner-border {
+  color: var(--color-primary) !important;
+}
+
+/* ---- Navbar: subtle bottom border instead of flat bg ---- */
+.navbar.bg-light {
+  background-color: var(--color-surface) !important;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ---- Section headings inside the resume form (h5 tags) ---- */
+.mb-4 > h5 {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-bg);
+  padding-bottom: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+/* ---- Small polish: outline-secondary buttons (Back, Remove) ---- */
+.btn-outline-secondary {
+  border-color: var(--color-border);
+  color: var(--color-muted);
+}
+.btn-outline-secondary:hover {
+  background-color: var(--color-bg);
+  border-color: var(--color-muted);
+  color: var(--color-ink);
+}
+.btn-outline-danger {
+  color: #a13a3a;
+  border-color: #f0c9c9;
+}
+.btn-outline-danger:hover {
+  background-color: #a13a3a;
+  border-color: #a13a3a;
+}
+
+/* ---- Empty-state / Loader spacing polish ---- */
+.text-center.mt-5 p {
+  font-family: var(--font-body);
+}
+
+/* ---- Login/Signup/ForgotPassword auth cards ---- */
+.card.p-4 {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(26, 34, 51, 0.04);
+}
+.card.p-4 h3 {
+  font-family: var(--font-heading);
+}
