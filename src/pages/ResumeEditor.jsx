@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Spinner, Alert, Navbar, Form } from "react
 import { useAuth } from "../context/AuthContext";
 import ResumeForm from "../features/resume/ResumeForm";
 import ResumePreview from "../features/resume/ResumePreview";
+import { useEffect } from "react"
 import { useResume } from "../hooks/useResume";
 import { templateOptions } from "../features/resume/templates/templateRegistry";
 
@@ -32,6 +33,17 @@ export default function ResumeEditor() {
       </Container>
     );
   }
+  
+  useEffect(() => {
+  const handleBeforeUnload = (e) => {
+    if (isDirty) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
+  };
+  window.addEventListener("beforeunload", handleBeforeUnload);
+  return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+}, [isDirty]);
 
   return (
     <>

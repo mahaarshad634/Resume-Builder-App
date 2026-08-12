@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button, Spinner, Alert, Navbar } from "react-bootstrap";
+import { Container, Row, Col, Button, Alert, Navbar } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 import {
   getResumes,
@@ -10,6 +10,8 @@ import {
 } from "../services/resumeService";
 import ResumeCard from "../features/resume/ResumeCard";
 import ConfirmModal from "../components/ConfirmModal";
+import Loader from "../components/Loader";
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -18,6 +20,7 @@ export default function Dashboard() {
   const [resumes, setResumes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [actionError, setActionError] = useState("");
   const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   const loadResumes = async () => {
@@ -27,7 +30,7 @@ export default function Dashboard() {
       const data = await getResumes(user.uid);
       setResumes(data);
     } catch (err) {
-      setError("Could not load your resumes. Please try again.");
+      setError("Could not load your resumes.");
     } finally {
       setLoading(false);
     }
@@ -38,30 +41,33 @@ export default function Dashboard() {
   }, [user]);
 
   const handleCreate = async () => {
+    setActionError("");
     try {
       const newId = await createResume(user.uid);
       navigate(`/resume/${newId}`);
     } catch (err) {
-      setError("Could not create a new resume. Please try again.");
+      setActionError("Could not create a new resume. Please try again.");
     }
   };
 
   const handleDuplicate = async (resumeId) => {
+    setActionError("");
     try {
       await duplicateResume(user.uid, resumeId);
       loadResumes();
     } catch (err) {
-      setError("Could not duplicate this resume. Please try again.");
+      setActionError("Could not duplicate this resume. Please try again.");
     }
   };
 
   const handleDeleteConfirmed = async () => {
+    setActionError("");
     try {
       await deleteResume(user.uid, deleteTargetId);
       setDeleteTargetId(null);
       loadResumes();
     } catch (err) {
-      setError("Could not delete this resume. Please try again.");
+      setActionError("Could not delete this resume. Please try again.");
     }
   };
 
@@ -90,12 +96,12 @@ export default function Dashboard() {
           </Button>
         </div>
 
-        {error && <Alert variant="danger">{error}</Alert>}
+        {actionError && <ErrorMessage message={actionError} />}
 
         {loading ? (
-          <div className="text-center mt-5">
-            <Spinner animation="border" />
-          </div>
+          <Loader message="Loading your resumes..." />
+        ) : error ? (
+          <ErrorMessage message={error} onRetry={loadResumes} />
         ) : resumes.length === 0 ? (
           <Alert variant="info">
             You don't have any resumes yet. Click "New Resume" to create your first one.
