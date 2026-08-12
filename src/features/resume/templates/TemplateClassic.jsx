@@ -2,15 +2,7 @@ export default function TemplateClassic({ data }) {
   const { personalInfo, summary, education, experience, skills, projects, certifications, languages, socialLinks } = data;
 
   return (
-    <div
-      style={{
-        background: "#fff",
-        border: "1px solid #dee2e6",
-        borderRadius: "6px",
-        padding: "2rem",
-        minHeight: "600px",
-      }}
-    >
+    <div className="resume-template resume-template-classic">
       <div className="mb-3">
         <h2 className="mb-0">{personalInfo.fullName || "Your Name"}</h2>
         <p className="text-muted mb-1">{personalInfo.jobTitle}</p>

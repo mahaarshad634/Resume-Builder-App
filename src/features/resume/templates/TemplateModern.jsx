@@ -2,26 +2,11 @@ export default function TemplateModern({ data }) {
   const { personalInfo, summary, education, experience, skills, projects, certifications, languages, socialLinks } = data;
 
   return (
-    <div
-      style={{
-        background: "#fff",
-        border: "1px solid #dee2e6",
-        borderRadius: "6px",
-        minHeight: "600px",
-        display: "flex",
-      }}
-    >
+    <div className="resume-template resume-template-modern">
       {/* Sidebar */}
-      <div
-        style={{
-          width: "35%",
-          background: "#2c3e50",
-          color: "#fff",
-          padding: "1.5rem",
-        }}
-      >
+      <div className="resume-template-sidebar">
         <h4 className="mb-0">{personalInfo.fullName || "Your Name"}</h4>
-        <p className="mb-3" style={{ color: "#bdc3c7" }}>{personalInfo.jobTitle}</p>
+        <p className="mb-3 text-muted-light">{personalInfo.jobTitle}</p>
 
         <div className="mb-3 small">
           {personalInfo.email && <p className="mb-1">{personalInfo.email}</p>}
@@ -31,7 +16,7 @@ export default function TemplateModern({ data }) {
 
         {skills.length > 0 && (
           <div className="mb-3">
-            <h6 style={{ color: "#ecf0f1" }} className="border-bottom pb-1">Skills</h6>
+            <h6 className="section-heading">Skills</h6>
             {skills.map((skill) => (
               <p key={skill.id} className="mb-1 small">{skill.name}</p>
             ))}
@@ -40,7 +25,7 @@ export default function TemplateModern({ data }) {
 
         {languages.length > 0 && (
           <div className="mb-3">
-            <h6 style={{ color: "#ecf0f1" }} className="border-bottom pb-1">Languages</h6>
+            <h6 className="section-heading">Languages</h6>
             {languages.map((lang) => (
               <p key={lang.id} className="mb-1 small">{lang.name} — {lang.proficiency}</p>
             ))}
@@ -49,7 +34,7 @@ export default function TemplateModern({ data }) {
 
         {socialLinks.length > 0 && (
           <div className="mb-3">
-            <h6 style={{ color: "#ecf0f1" }} className="border-bottom pb-1">Links</h6>
+            <h6 className="section-heading">Links</h6>
             {socialLinks.map((link) => (
               <p key={link.id} className="mb-1 small">{link.platform}: {link.url}</p>
             ))}
@@ -58,10 +43,10 @@ export default function TemplateModern({ data }) {
       </div>
 
       {/* Main column */}
-      <div style={{ width: "65%", padding: "1.5rem" }}>
+      <div className="resume-template-main">
         {summary && (
-          <div className="mb-3">
-            <h6 className="text-uppercase" style={{ color: "#2c3e50" }}>Summary</h6>
+          <div className="section-block">
+            <h6 className="section-heading">Summary</h6>
             <p className="mb-0 small">{summary}</p>
           </div>
         )}

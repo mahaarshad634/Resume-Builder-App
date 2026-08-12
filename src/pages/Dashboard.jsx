@@ -85,30 +85,35 @@ export default function Dashboard() {
     <>
       <Navbar bg="light" className="px-3 mb-4">
         <Navbar.Brand>Resume Builder</Navbar.Brand>
-        <div className="ms-auto">
-          <span className="me-3 text-muted">{user?.email}</span>
+        <div className="ms-auto d-flex align-items-center gap-3">
+          <span className="text-muted">{user?.email}</span>
           <Button variant="outline-secondary" size="sm" onClick={handleLogout}>
             Log Out
           </Button>
         </div>
       </Navbar>
 
-      <Container>
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2>My Resumes</h2>
+      <Container className="dashboard-page">
+        <div className="page-header mb-4 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+          <div>
+            <h2>My Resumes</h2>
+            <p className="mb-0 text-muted">Create, customize, and manage polished resumes from a modern dashboard.</p>
+          </div>
           <Button variant="primary" onClick={handleCreate}>
             + New Resume
           </Button>
         </div>
 
-        <InputGroup className="mb-4">
-          <InputGroup.Text>🔍</InputGroup.Text>
-          <Form.Control
-            placeholder="Search resumes by title..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </InputGroup>
+        <div className="section-panel mb-4">
+          <InputGroup>
+            <InputGroup.Text>🔍</InputGroup.Text>
+            <Form.Control
+              placeholder="Search resumes by title..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </InputGroup>
+        </div>
 
         {actionError && <ErrorMessage message={actionError} />}
 

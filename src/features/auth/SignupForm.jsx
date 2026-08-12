@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../../context/AuthContext";
+import { fetchSignInMethodsForEmail, GithubAuthProvider } from "firebase/auth";
+import { auth } from "../../services/firebase";
 
 const errorMessages = {
   "auth/email-already-in-use": "An account with this email already exists.",
@@ -43,26 +45,26 @@ export default function SignupForm() {
     }
   };
 
-  const handleGithubLogin = async () => {
-  setFirebaseError("");
-  try {
-    await loginWithGithub();
-    navigate("/dashboard");
-  } catch (err) {
-    if (err.code === "auth/account-exists-with-different-credential") {
-      const email = err.customData?.email;
-      const pendingCred = GithubAuthProvider.credentialFromError(err);
-      const methods = await fetchSignInMethodsForEmail(auth, email);
+  const handleGithubSignup = async () => {
+    setFirebaseError("");
+    try {
+      await loginWithGithub();
+      navigate("/dashboard");
+    } catch (err) {
+      if (err.code === "auth/account-exists-with-different-credential") {
+        const email = err.customData?.email;
+        const pendingCred = GithubAuthProvider.credentialFromError(err);
+        const methods = await fetchSignInMethodsForEmail(auth, email);
 
-      setFirebaseError(
-        `This email is already registered using ${methods[0]}. Please log in that way first, then link GitHub from your account settings.`
-      );
-      // Note: pendingCred is available here if you build an account-linking flow later
-    } else {
-      setFirebaseError(errorMessages[err.code] || "GitHub sign-in failed. Please try again.");
+        setFirebaseError(
+          `This email is already registered using ${methods[0]}. Please log in that way first, then link GitHub from your account settings.`
+        );
+        // Note: pendingCred is available here if you build an account-linking flow later
+      } else {
+        setFirebaseError(errorMessages[err.code] || "GitHub sign-in failed. Please try again.");
+      }
     }
-  }
-};
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} noValidate>
