@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button, Alert, Navbar } from "react-bootstrap";
+import { Container, Row, Col, Button, Alert, Navbar, Form, InputGroup } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 import {
   getResumes,
@@ -22,6 +22,7 @@ export default function Dashboard() {
   const [error, setError] = useState("");
   const [actionError, setActionError] = useState("");
   const [deleteTargetId, setDeleteTargetId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const loadResumes = async () => {
     setLoading(true);
@@ -76,6 +77,10 @@ export default function Dashboard() {
     navigate("/login");
   };
 
+  const filteredResumes = resumes.filter((resume) =>
+    resume.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <>
       <Navbar bg="light" className="px-3 mb-4">
@@ -96,6 +101,15 @@ export default function Dashboard() {
           </Button>
         </div>
 
+        <InputGroup className="mb-4">
+          <InputGroup.Text>🔍</InputGroup.Text>
+          <Form.Control
+            placeholder="Search resumes by title..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </InputGroup>
+
         {actionError && <ErrorMessage message={actionError} />}
 
         {loading ? (
@@ -106,9 +120,11 @@ export default function Dashboard() {
           <Alert variant="info">
             You don't have any resumes yet. Click "New Resume" to create your first one.
           </Alert>
+        ) : filteredResumes.length === 0 ? (
+          <Alert variant="secondary">No resumes match "{searchQuery}".</Alert>
         ) : (
           <Row xs={1} md={2} lg={3} className="g-4">
-            {resumes.map((resume) => (
+            {filteredResumes.map((resume) => (
               <Col key={resume.id}>
                 <ResumeCard
                   resume={resume}
