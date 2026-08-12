@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getResume, updateResume } from "../services/resumeService";
 
 export function useResume(uid, resumeId) {
@@ -7,6 +7,9 @@ export function useResume(uid, resumeId) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [saveError, setSaveError] = useState("");
+  const [isDirty, setIsDirty] = useState(false);
+
+  const isFirstLoad = useRef(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -16,7 +19,10 @@ export function useResume(uid, resumeId) {
       setError("");
       try {
         const data = await getResume(uid, resumeId);
-        if (isMounted) setResumeData(data);
+        if (isMounted) {
+          setResumeData(data);
+          isFirstLoad.current = true;
+        }
       } catch (err) {
         if (isMounted) setError("Could not load this resume.");
       } finally {
@@ -33,6 +39,8 @@ export function useResume(uid, resumeId) {
 
   const updateSection = (sectionKey, value) => {
     setResumeData((prev) => ({ ...prev, [sectionKey]: value }));
+    isFirstLoad.current = false;
+    setIsDirty(true);
   };
 
   const save = async () => {
@@ -40,6 +48,7 @@ export function useResume(uid, resumeId) {
     setSaveError("");
     try {
       await updateResume(uid, resumeId, resumeData);
+      setIsDirty(false);
     } catch (err) {
       setSaveError("Could not save. Please try again.");
     } finally {
@@ -53,6 +62,7 @@ export function useResume(uid, resumeId) {
     saving,
     error,
     saveError,
+    isDirty,
     updateSection,
     save,
   };
