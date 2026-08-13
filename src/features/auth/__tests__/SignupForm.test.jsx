@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import SignupForm from '../SignupForm';
 import { BrowserRouter } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
+import React from 'react';
 
 // mock the useAuth hook
 vi.mock('../../../context/AuthContext', () => ({
