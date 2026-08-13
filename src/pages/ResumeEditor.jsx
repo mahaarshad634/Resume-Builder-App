@@ -12,6 +12,7 @@ import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 import ThemeToggle from "../components/ThemeToggle";
 import ColorPalette from "../components/ColorPalette";
+import { exportResumeToPdf } from "../utils/exportResumePdf";
 
 export default function ResumeEditor() {
   const { id } = useParams();
@@ -123,7 +124,7 @@ export default function ResumeEditor() {
           />
           <ThemeToggle />
           {saveError && <span className="text-danger">{saveError}</span>}
-          <Button variant="outline-primary" size="sm" onClick={handlePrint}>
+          <Button variant="outline-primary" size="sm"  onClick={() => exportResumeToPdf(resumeData)}>
             Download PDF
           </Button>
           <Button variant="primary" size="sm" onClick={save} disabled={saving || !isDirty}>
