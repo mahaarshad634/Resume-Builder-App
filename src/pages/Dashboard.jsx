@@ -12,6 +12,7 @@ import ResumeCard from "../features/resume/ResumeCard";
 import ConfirmModal from "../components/ConfirmModal";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -85,6 +86,7 @@ export default function Dashboard() {
     <>
       <Navbar bg="light" className="px-3 mb-4">
         <Navbar.Brand>Resume Builder</Navbar.Brand>
+         <ThemeToggle />
         <div className="ms-auto d-flex align-items-center gap-3">
           <span className="text-muted">{user?.email}</span>
           <Button variant="outline-secondary" size="sm" onClick={handleLogout}>

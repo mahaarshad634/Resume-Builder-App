@@ -10,6 +10,7 @@ import { useDebounce } from "../hooks/useDebounce";
 import { templateOptions } from "../features/resume/templates/templateRegistry";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function ResumeEditor() {
   const { id } = useParams();
@@ -63,6 +64,7 @@ export default function ResumeEditor() {
 
   return (
     <div className="resume-editor-page">
+       <ThemeToggle />
       <Navbar bg="light" className="editor-toolbar px-4 mb-4 flex-wrap gap-2">
         <Button variant="outline-secondary" size="sm" onClick={() => navigate("/dashboard")}>← Back</Button>
 

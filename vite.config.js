@@ -8,7 +8,7 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/test/setup.js",
   },
-  esbuild: {
-    jsxInject: `import React from 'react'`,
-  },
+  esbuild: process.env.VITEST
+    ? { jsxInject: `import React from 'react'` }
+    : undefined,
 });

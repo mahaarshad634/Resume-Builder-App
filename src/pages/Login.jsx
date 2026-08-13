@@ -1,17 +1,21 @@
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { LogIn } from "lucide-react";
+import AuthLayout from "../components/AuthLayout";
 import LoginForm from "../features/auth/LoginForm";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Login() {
   return (
-    <Container>
-      <Row className="justify-content-center mt-5">
-        <Col xs={12} md={6} lg={4}>
-          <Card className="p-4">
-            <h3 className="mb-3 text-center">Log In</h3>
-            <LoginForm />
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <AuthLayout>
+      <div className="d-flex justify-content-end mb-3">
+        <ThemeToggle />
+      </div>
+
+      <div className="d-flex align-items-center gap-2 mb-1">
+        <LogIn size={22} color="var(--color-primary)" />
+        <h3 className="mb-0">Log In</h3>
+      </div>
+      <p className="text-muted mb-4">Welcome back — pick up where you left off.</p>
+      <LoginForm />
+    </AuthLayout>
   );
 }

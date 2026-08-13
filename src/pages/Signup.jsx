@@ -1,17 +1,21 @@
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { UserPlus } from "lucide-react";
+import AuthLayout from "../components/AuthLayout";
 import SignupForm from "../features/auth/SignupForm";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Signup() {
   return (
-    <Container>
-      <Row className="justify-content-center mt-5">
-        <Col xs={12} md={6} lg={4}>
-          <Card className="p-4">
-            <h3 className="mb-3 text-center">Create Account</h3>
-            <SignupForm />
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <AuthLayout>
+       <div className="d-flex justify-content-end mb-3">
+              <ThemeToggle />
+            </div>
+
+      <div className="d-flex align-items-center gap-2 mb-1">
+        <UserPlus size={22} color="var(--color-primary)" />
+        <h3 className="mb-0">Create Account</h3>
+      </div>
+      <p className="text-muted mb-4">Start building your resume in minutes.</p>
+      <SignupForm />
+    </AuthLayout>
   );
 }
