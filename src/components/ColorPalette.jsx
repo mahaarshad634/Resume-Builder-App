@@ -1,4 +1,4 @@
-import { ButtonGroup, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Dropdown, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import React from "react";
 
 const PALETTES = [
@@ -50,43 +50,128 @@ const PALETTES = [
       border: "#f0e6e6",
     },
   },
+  {
+    id: "ocean",
+    label: "Ocean",
+    colors: {
+      primary: "#0b6e99",
+      primaryHover: "#095b80",
+      accent: "#ffd166",
+      bg: "#f2fbff",
+      surface: "#ffffff",
+      border: "#d6eefc",
+    },
+  },
+  {
+    id: "professional-gray",
+    label: "Professional Gray",
+    colors: {
+      primary: "#3a4b56",
+      primaryHover: "#2f3c44",
+      accent: "#7ea3b2",
+      bg: "#f6f7f8",
+      surface: "#ffffff",
+      border: "#e1e6e9",
+    },
+  },
+  {
+    id: "skyline",
+    label: "Skyline",
+    colors: {
+      primary: "#1f6f8b",
+      primaryHover: "#16596f",
+      accent: "#ffb86b",
+      bg: "#f6fbfb",
+      surface: "#ffffff",
+      border: "#e6f0f2",
+    },
+  },
+  {
+    id: "olive",
+    label: "Olive",
+    colors: {
+      primary: "#556b2f",
+      primaryHover: "#485a28",
+      accent: "#d4b26a",
+      bg: "#fafbf5",
+      surface: "#ffffff",
+      border: "#ececdf",
+    },
+  },
+  {
+    id: "deep-teal",
+    label: "Deep Teal",
+    colors: {
+      primary: "#0d6b6b",
+      primaryHover: "#0b5757",
+      accent: "#ffc9a3",
+      bg: "#f7fbfb",
+      surface: "#ffffff",
+      border: "#e6efef",
+    },
+  },
+  {
+    id: "warm-amber",
+    label: "Warm Amber",
+    colors: {
+      primary: "#9b6b00",
+      primaryHover: "#7d5600",
+      accent: "#f7c873",
+      bg: "#fffaf2",
+      surface: "#ffffff",
+      border: "#f3e6cf",
+    },
+  },
+  {
+    id: "slate",
+    label: "Slate",
+    colors: {
+      primary: "#2e3a49",
+      primaryHover: "#25313b",
+      accent: "#aab7c2",
+      bg: "#f7f9fb",
+      surface: "#ffffff",
+      border: "#e6eaf0",
+    },
+  },
+  {
+    id: "midnight",
+    label: "Midnight",
+    colors: {
+      primary: "#111827",
+      primaryHover: "#0b1220",
+      accent: "#6ee7b7",
+      bg: "#f8fafc",
+      surface: "#ffffff",
+      border: "#e5e7eb",
+    },
+  },
 ];
 
 export default function ColorPalette({ currentColors = {}, onSelect }) {
   const applyPalette = (colors) => {
-    const root = document.documentElement;
-    root.style.setProperty("--color-primary", colors.primary);
-    root.style.setProperty("--color-primary-hover", colors.primaryHover);
-    root.style.setProperty("--color-accent", colors.accent);
-    root.style.setProperty("--color-bg", colors.bg);
-    root.style.setProperty("--color-surface", colors.surface);
-    root.style.setProperty("--color-border", colors.border);
-
     if (onSelect) onSelect(colors);
   };
 
   return (
-    <ButtonGroup aria-label="Color palettes" className="me-2">
-      {PALETTES.map((p) => (
-        <OverlayTrigger
-          key={p.id}
-          placement="bottom"
-          overlay={<Tooltip id={`tp-${p.id}`}>{p.label}</Tooltip>}
-        >
-          <Button
-            variant="light"
-            size="sm"
-            onClick={() => applyPalette(p.colors)}
-            style={{ padding: 0, border: "1px solid var(--color-border)" }}
-            title={p.label}
-          >
-            <div style={{ display: "flex", gap: 0 }}>
-              <div style={{ width: 20, height: 20, background: p.colors.primary }} />
-              <div style={{ width: 20, height: 20, background: p.colors.accent }} />
-            </div>
-          </Button>
-        </OverlayTrigger>
-      ))}
-    </ButtonGroup>
+    <Dropdown align="end" className="me-2">
+      <Dropdown.Toggle variant="light" size="sm" id="color-palette-dropdown">
+        Palette
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        {PALETTES.map((p) => (
+          <OverlayTrigger key={p.id} placement="right" overlay={<Tooltip id={`tp-${p.id}`}>{p.label}</Tooltip>}>
+            <Dropdown.Item onClick={() => applyPalette(p.colors)}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                <div style={{ width: 20, height: 14, background: p.colors.primary, borderRadius: 2, border: "1px solid #eee" }} />
+                <div style={{ width: 20, height: 14, background: p.colors.accent, borderRadius: 2, border: "1px solid #eee" }} />
+                <span style={{ marginLeft: 8 }}>{p.label}</span>
+              </div>
+            </Dropdown.Item>
+          </OverlayTrigger>
+        ))}
+      </Dropdown.Menu>
+    </Dropdown>
   );
 }

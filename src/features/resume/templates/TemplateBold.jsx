@@ -1,3 +1,5 @@
+import { Linkedin, Github, Twitter, Globe, Link as LinkIcon, ExternalLink } from "lucide-react";
+
 export default function TemplateBold({ data }) {
   const {
     personalInfo,
@@ -19,6 +21,16 @@ export default function TemplateBold({ data }) {
     } catch {
       return url;
     }
+  };
+
+  const iconFor = (platform) => {
+    if (!platform) return <LinkIcon size={16} />;
+    const p = platform.toLowerCase();
+    if (p.includes("linkedin")) return <Linkedin size={16} />;
+    if (p.includes("github")) return <Github size={16} />;
+    if (p.includes("twitter")) return <Twitter size={16} />;
+    if (p.includes("web") || p.includes("portfolio") || p.includes("website") ) return <Globe size={16} />;
+    return <ExternalLink size={16} />;
   };
 
   return (
@@ -116,10 +128,13 @@ export default function TemplateBold({ data }) {
             </h6>
             {projects.map((proj) => (
               <div key={proj.id} className="mb-3 ps-3" style={{ borderLeft: "3px solid var(--color-accent, #c98a3e)" }}>
-                <strong>{proj.name}</strong>
-                {proj.link && (
-                  <span className="small text-muted"> — <a href={ensureProtocol(proj.link)} target="_blank" rel="noopener noreferrer">{displayLink(proj.link)}</a></span>
-                )}
+                <strong>
+                  {proj.link ? (
+                    <a href={ensureProtocol(proj.link)} target="_blank" rel="noopener noreferrer">{proj.name}</a>
+                  ) : (
+                    proj.name
+                  )}
+                </strong>
                 <p className="mb-0 small">{proj.description}</p>
                 {proj.techStack && <p className="mb-0 small fst-italic text-muted">{proj.techStack}</p>}
               </div>
@@ -197,7 +212,9 @@ export default function TemplateBold({ data }) {
               </h6>
               {socialLinks.map((link) => (
                 <p key={link.id} className="mb-1 small">
-                  {link.platform}: <a href={ensureProtocol(link.url)} target="_blank" rel="noopener noreferrer">{displayLink(link.url)}</a>
+                  <a href={ensureProtocol(link.url)} target="_blank" rel="noopener noreferrer" title={link.platform}>
+                    {iconFor(link.platform)}
+                  </a>
                 </p>
               ))}
             </div>

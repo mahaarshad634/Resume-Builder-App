@@ -1,3 +1,5 @@
+import { Linkedin, Github, Twitter, Globe, Link as LinkIcon, ExternalLink } from "lucide-react";
+
 export default function TemplateClassic({ data }) {
   const { personalInfo, summary, education, experience, skills, projects, certifications, languages, socialLinks } = data;
 
@@ -9,6 +11,16 @@ export default function TemplateClassic({ data }) {
     } catch {
       return url;
     }
+  };
+
+  const iconFor = (platform) => {
+    if (!platform) return <LinkIcon size={16} />;
+    const p = platform.toLowerCase();
+    if (p.includes("linkedin")) return <Linkedin size={16} />;
+    if (p.includes("github")) return <Github size={16} />;
+    if (p.includes("twitter")) return <Twitter size={16} />;
+    if (p.includes("web") || p.includes("portfolio") || p.includes("website") ) return <Globe size={16} />;
+    return <ExternalLink size={16} />;
   };
 
   return (
@@ -69,10 +81,13 @@ export default function TemplateClassic({ data }) {
           <h6 className="border-bottom pb-1">Projects</h6>
           {projects.map((proj) => (
             <div key={proj.id} className="mb-2">
-              <strong>{proj.name}</strong>
-              {proj.link && (
-                <span className="small text-muted"> — <a href={ensureProtocol(proj.link)} target="_blank" rel="noopener noreferrer">{displayLink(proj.link)}</a></span>
-              )}
+              <strong>
+                {proj.link ? (
+                  <a href={ensureProtocol(proj.link)} target="_blank" rel="noopener noreferrer">{proj.name}</a>
+                ) : (
+                  proj.name
+                )}
+              </strong>
               <p className="mb-0 small">{proj.description}</p>
               {proj.techStack && <p className="mb-0 small fst-italic">{proj.techStack}</p>}
             </div>
@@ -111,11 +126,17 @@ export default function TemplateClassic({ data }) {
         <div className="mb-3">
           <h6 className="border-bottom pb-1">Links</h6>
           <p className="mb-0 small">
-            {socialLinks.map((link) => (
-              <span key={link.id}>
-                {link.platform}: <a href={ensureProtocol(link.url)} target="_blank" rel="noopener noreferrer">{displayLink(link.url)}</a>
-                {" | "}
-              </span>
+            {socialLinks.map((link, idx) => (
+              <a
+                key={link.id}
+                href={ensureProtocol(link.url)}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={link.platform}
+                className="me-2"
+              >
+                {iconFor(link.platform)}
+              </a>
             ))}
           </p>
         </div>
