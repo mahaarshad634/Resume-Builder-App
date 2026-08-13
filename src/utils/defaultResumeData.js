@@ -16,4 +16,12 @@ export const defaultResumeData = {
   certifications: [],
   languages: [],
   socialLinks: [],
+  themeColors: {
+    primary: "#235a7e",
+    primaryHover: "#1b4a65",
+    accent: "#f0a845",
+    bg: "#eef4f9",
+    surface: "#ffffff",
+    border: "#d7e1e9",
+  },
 };

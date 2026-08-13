@@ -11,6 +11,7 @@ import { templateOptions } from "../features/resume/templates/templateRegistry";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 import ThemeToggle from "../components/ThemeToggle";
+import ColorPalette from "../components/ColorPalette";
 
 export default function ResumeEditor() {
   const { id } = useParams();
@@ -18,7 +19,7 @@ export default function ResumeEditor() {
   const navigate = useNavigate();
 
   const { resumeData, loading, saving, error, saveError, isDirty, updateSection, save } =
-    useResume(user.uid, id);
+    useResume(user?.uid, id);
 
   const previewRef = useRef();
   const handlePrint = useReactToPrint({
@@ -45,6 +46,20 @@ export default function ResumeEditor() {
     }
   }, [debouncedResumeData]);
 
+  useEffect(() => {
+    // apply saved theme colors if present
+    if (resumeData?.themeColors) {
+      const c = resumeData.themeColors;
+      const root = document.documentElement;
+      root.style.setProperty("--color-primary", c.primary || "#235a7e");
+      root.style.setProperty("--color-primary-hover", c.primaryHover || "#1b4a65");
+      root.style.setProperty("--color-accent", c.accent || "#f0a845");
+      root.style.setProperty("--color-bg", c.bg || "#eef4f9");
+      root.style.setProperty("--color-surface", c.surface || "#ffffff");
+      root.style.setProperty("--color-border", c.border || "#d7e1e9");
+    }
+  }, [resumeData?.themeColors]);
+
   if (loading) {
     return <Loader message="Loading your resume..." />;
   }
@@ -62,15 +77,27 @@ export default function ResumeEditor() {
     );
   }
 
+  if (!resumeData && !loading) {
+    return (
+      <Container className="mt-5">
+        <ErrorMessage message="No resume loaded. Please select or create a resume from the dashboard." />
+        <div className="mt-3">
+          <Button variant="secondary" onClick={() => navigate("/dashboard")}>Back to Dashboard</Button>
+        </div>
+      </Container>
+    );
+  }
+
+  
+
   return (
     <div className="resume-editor-page">
-       <ThemeToggle />
       <Navbar bg="light" className="editor-toolbar px-4 mb-4 flex-wrap gap-2">
         <Button variant="outline-secondary" size="sm" onClick={() => navigate("/dashboard")}>← Back</Button>
 
         <Form.Control
           type="text"
-          value={resumeData.title}
+          value={resumeData?.title || ""}
           onChange={(e) => updateSection("title", e.target.value)}
           className="mx-3"
           style={{ maxWidth: "300px" }}
@@ -78,7 +105,7 @@ export default function ResumeEditor() {
         />
 
         <Form.Select
-          value={resumeData.templateId}
+          value={resumeData?.templateId || templateOptions[0]?.id}
           onChange={(e) => updateSection("templateId", e.target.value)}
           style={{ maxWidth: "180px" }}
         >
@@ -90,6 +117,11 @@ export default function ResumeEditor() {
         </Form.Select>
 
         <div className="ms-auto d-flex align-items-center gap-2">
+          <ColorPalette
+            currentColors={resumeData.themeColors}
+            onSelect={(colors) => updateSection("themeColors", colors)}
+          />
+          <ThemeToggle />
           {saveError && <span className="text-danger">{saveError}</span>}
           <Button variant="outline-primary" size="sm" onClick={handlePrint}>
             Download PDF
