@@ -37,6 +37,7 @@ export default function Projects({ data, onChange }) {
               <Form.Group>
                 <Form.Label>Link</Form.Label>
                 <Form.Control
+                  type="url"
                   value={entry.link}
                   onChange={(e) => updateEntry(entry.id, "link", e.target.value)}
                   placeholder="https://github.com/..."

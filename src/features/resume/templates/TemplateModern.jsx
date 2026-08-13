@@ -1,6 +1,16 @@
 export default function TemplateModern({ data }) {
   const { personalInfo, summary, education, experience, skills, projects, certifications, languages, socialLinks } = data;
 
+  const ensureProtocol = (url) => (url && !/^https?:\/\//i.test(url) ? `https://${url}` : url);
+  const displayLink = (url) => {
+    try {
+      const u = new URL(ensureProtocol(url));
+      return u.hostname + (u.pathname && u.pathname !== "/" ? u.pathname : "");
+    } catch {
+      return url;
+    }
+  };
+
   return (
     <div className="resume-template resume-template-modern">
       {/* Sidebar */}
@@ -36,7 +46,7 @@ export default function TemplateModern({ data }) {
           <div className="mb-3">
             <h6 className="section-heading">Links</h6>
             {socialLinks.map((link) => (
-              <p key={link.id} className="mb-1 small">{link.platform}: {link.url}</p>
+              <p key={link.id} className="mb-1 small">{link.platform}: <a href={ensureProtocol(link.url)} target="_blank" rel="noopener noreferrer">{displayLink(link.url)}</a></p>
             ))}
           </div>
         )}
@@ -87,6 +97,9 @@ export default function TemplateModern({ data }) {
               <div key={proj.id} className="mb-2">
                 <strong>{proj.name}</strong>
                 <p className="mb-0 small">{proj.description}</p>
+                {proj.link && (
+                  <p className="mb-0 small text-muted"><a href={ensureProtocol(proj.link)} target="_blank" rel="noopener noreferrer">{displayLink(proj.link)}</a></p>
+                )}
                 {proj.techStack && <p className="mb-0 small fst-italic text-muted">{proj.techStack}</p>}
               </div>
             ))}

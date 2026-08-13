@@ -49,7 +49,7 @@ export default function Experience({ data, onChange }) {
               <Form.Group>
                 <Form.Label>Start Date</Form.Label>
                 <Form.Control
-                  type="month"
+                  type="date"
                   value={entry.startDate}
                   onChange={(e) => updateEntry(entry.id, "startDate", e.target.value)}
                 />
@@ -59,7 +59,7 @@ export default function Experience({ data, onChange }) {
               <Form.Group>
                 <Form.Label>End Date</Form.Label>
                 <Form.Control
-                  type="month"
+                  type="date"
                   value={entry.endDate}
                   disabled={entry.current}
                   onChange={(e) => updateEntry(entry.id, "endDate", e.target.value)}

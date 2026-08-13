@@ -1,6 +1,16 @@
 export default function TemplateClassic({ data }) {
   const { personalInfo, summary, education, experience, skills, projects, certifications, languages, socialLinks } = data;
 
+  const ensureProtocol = (url) => (url && !/^https?:\/\//i.test(url) ? `https://${url}` : url);
+  const displayLink = (url) => {
+    try {
+      const u = new URL(ensureProtocol(url));
+      return u.hostname + (u.pathname && u.pathname !== "/" ? u.pathname : "");
+    } catch {
+      return url;
+    }
+  };
+
   return (
     <div className="resume-template resume-template-classic">
       <div className="mb-3">
@@ -60,7 +70,9 @@ export default function TemplateClassic({ data }) {
           {projects.map((proj) => (
             <div key={proj.id} className="mb-2">
               <strong>{proj.name}</strong>
-              {proj.link && <span className="small text-muted"> — {proj.link}</span>}
+              {proj.link && (
+                <span className="small text-muted"> — <a href={ensureProtocol(proj.link)} target="_blank" rel="noopener noreferrer">{displayLink(proj.link)}</a></span>
+              )}
               <p className="mb-0 small">{proj.description}</p>
               {proj.techStack && <p className="mb-0 small fst-italic">{proj.techStack}</p>}
             </div>
@@ -99,7 +111,12 @@ export default function TemplateClassic({ data }) {
         <div className="mb-3">
           <h6 className="border-bottom pb-1">Links</h6>
           <p className="mb-0 small">
-            {socialLinks.map((link) => `${link.platform}: ${link.url}`).join(" | ")}
+            {socialLinks.map((link) => (
+              <span key={link.id}>
+                {link.platform}: <a href={ensureProtocol(link.url)} target="_blank" rel="noopener noreferrer">{displayLink(link.url)}</a>
+                {" | "}
+              </span>
+            ))}
           </p>
         </div>
       )}

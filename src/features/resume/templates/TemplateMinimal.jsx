@@ -1,6 +1,16 @@
 export default function TemplateMinimal({ data }) {
   const { personalInfo, summary, education, experience, skills, projects, certifications, languages, socialLinks } = data;
 
+  const ensureProtocol = (url) => (url && !/^https?:\/\//i.test(url) ? `https://${url}` : url);
+  const displayLink = (url) => {
+    try {
+      const u = new URL(ensureProtocol(url));
+      return u.hostname + (u.pathname && u.pathname !== "/" ? u.pathname : "");
+    } catch {
+      return url;
+    }
+  };
+
   return (
     <div style={{ background: "#fff", padding: "2.5rem", minHeight: "600px" }}>
       <div className="mb-4">

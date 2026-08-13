@@ -13,6 +13,15 @@ export default function TemplateBold({ data }) {
 
   return (
     <div style={{ background: "#fff", minHeight: "600px", overflow: "hidden" }}>
+    const ensureProtocol = (url) => (url && !/^https?:\/\//i.test(url) ? `https://${url}` : url);
+    const displayLink = (url) => {
+      try {
+        const u = new URL(ensureProtocol(url));
+        return u.hostname + (u.pathname && u.pathname !== "/" ? u.pathname : "");
+      } catch {
+        return url;
+      }
+    };
       {/* Header banner */}
       <div
         style={{
@@ -25,7 +34,9 @@ export default function TemplateBold({ data }) {
           {personalInfo.fullName || "Your Name"}
         </h1>
         <p className="mb-2" style={{ color: "#d8e6e6", fontSize: "1.1rem" }}>
-          {personalInfo.jobTitle}
+                  {proj.link && (
+                    <span className="small text-muted"> — <a href={ensureProtocol(proj.link)} target="_blank" rel="noopener noreferrer">{displayLink(proj.link)}</a></span>
+                  )}
         </p>
         <p className="small mb-0" style={{ color: "#c3d6d6" }}>
           {[personalInfo.email, personalInfo.phone, personalInfo.address]
@@ -36,7 +47,7 @@ export default function TemplateBold({ data }) {
 
       <div style={{ padding: "2rem" }}>
         {summary && (
-          <div className="mb-4">
+              <div className="col-md-6 mb-4">
             <h6
               className="text-uppercase fw-bold mb-2"
               style={{ color: "var(--color-primary, #1f4b4c)", letterSpacing: "0.06em" }}
@@ -44,9 +55,9 @@ export default function TemplateBold({ data }) {
               Summary
             </h6>
             <p className="mb-0">{summary}</p>
-          </div>
-        )}
-
+                  <p key={link.id} className="mb-1 small">
+                    {link.platform}: <a href={ensureProtocol(link.url)} target="_blank" rel="noopener noreferrer">{displayLink(link.url)}</a>
+                  </p>
         {experience.length > 0 && (
           <div className="mb-4">
             <h6
