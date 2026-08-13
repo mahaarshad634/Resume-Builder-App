@@ -100,29 +100,29 @@ export default function ResumeEditor() {
         </div>
       </Navbar>
 
-      <Container fluid>
-        <div className="page-header mb-4">
-          <div>
-            <h2>Resume Editor</h2>
-            <p className="mb-0 text-muted">Edit content, choose a template, and preview your resume in real time.</p>
-          </div>
-        </div>
+   <Container fluid className="animate-in">
+  <div className="page-header mb-4">
+    <div>
+      <h2>Resume Editor</h2>
+      <p className="mb-0 text-muted">Edit content, choose a template, and preview your resume in real time.</p>
+    </div>
+  </div>
 
-        <Row className="g-4">
-          <Col xs={12} md={6}>
-            <div className="section-panel">
-              <h5 className="mb-4">Resume Details</h5>
-              <ResumeForm resumeData={resumeData} updateSection={updateSection} />
-            </div>
-          </Col>
-          <Col xs={12} md={6}>
-            <div className="resume-preview-shell">
-              <div className="preview-title">Live Preview</div>
-              <ResumePreview resumeData={resumeData} ref={previewRef} />
-            </div>
-          </Col>
-        </Row>
-      </Container>
+  <Row className="g-4">
+    <Col xs={12} md={6}>
+      <div className="section-panel">
+        <h5 className="mb-4">Resume Details</h5>
+        <ResumeForm resumeData={resumeData} updateSection={updateSection} />
+      </div>
+    </Col>
+    <Col xs={12} md={6}>
+      <div className="resume-preview-shell">
+        <div className="preview-title">Live Preview</div>
+        <ResumePreview resumeData={resumeData} ref={previewRef} />
+      </div>
+    </Col>
+  </Row>
+</Container>
     </div>
   );
 }
