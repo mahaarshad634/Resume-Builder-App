@@ -59,7 +59,7 @@ export default function Education({ data, onChange }) {
               <Form.Group>
                 <Form.Label>Start Date</Form.Label>
                 <Form.Control
-                  type="date"
+                  type="month"
                   value={entry.startDate}
                   onChange={(e) => updateEntry(entry.id, "startDate", e.target.value)}
                 />
@@ -69,7 +69,7 @@ export default function Education({ data, onChange }) {
               <Form.Group>
                 <Form.Label>End Date</Form.Label>
                 <Form.Control
-                  type="date"
+                  type="month"
                   value={entry.endDate}
                   onChange={(e) => updateEntry(entry.id, "endDate", e.target.value)}
                 />

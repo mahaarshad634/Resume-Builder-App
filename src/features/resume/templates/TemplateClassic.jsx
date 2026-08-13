@@ -12,7 +12,7 @@ export default function TemplateClassic({ data }) {
       return url;
     }
   };
-
+console.log("Social links data:", socialLinks);
   const iconFor = (platform) => {
     if (!platform) return <LinkIcon size={16} />;
     const p = platform.toLowerCase();
