@@ -606,3 +606,113 @@ body,
 .resume-preview-shell {
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
+
+/* ---- Entrance animations ---- */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fadeSlideUp 0.35s ease both;
+}
+
+/* Stagger children by nth-child, up to 12 items */
+.stagger-in > * {
+  animation: fadeSlideUp 0.35s ease both;
+}
+.stagger-in > *:nth-child(1) { animation-delay: 0.03s; }
+.stagger-in > *:nth-child(2) { animation-delay: 0.06s; }
+.stagger-in > *:nth-child(3) { animation-delay: 0.09s; }
+.stagger-in > *:nth-child(4) { animation-delay: 0.12s; }
+.stagger-in > *:nth-child(5) { animation-delay: 0.15s; }
+.stagger-in > *:nth-child(6) { animation-delay: 0.18s; }
+.stagger-in > *:nth-child(7) { animation-delay: 0.21s; }
+.stagger-in > *:nth-child(8) { animation-delay: 0.24s; }
+.stagger-in > *:nth-child(9) { animation-delay: 0.27s; }
+.stagger-in > *:nth-child(n+10) { animation-delay: 0.3s; }
+
+/* ---- Skeleton loaders ---- */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    var(--color-bg) 50%,
+    var(--color-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.4s ease-in-out infinite;
+  border-radius: 6px;
+}
+[data-theme="dark"] .skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface) 25%,
+    #22283333 50%,
+    var(--color-surface) 75%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm, 12px);
+  padding: 1.35rem;
+  height: 100%;
+}
+.skeleton-line {
+  height: 14px;
+  margin-bottom: 0.6rem;
+}
+.skeleton-line.w-60 { width: 60%; }
+.skeleton-line.w-40 { width: 40%; }
+.skeleton-line.w-100 { width: 100%; }
+
+/* ---- Button micro-interactions ---- */
+.btn {
+  transition: transform 0.12s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary:hover {
+  box-shadow: 0 4px 14px rgba(35, 90, 126, 0.25);
+}
+[data-theme="dark"] .btn-primary:hover {
+  box-shadow: 0 4px 14px rgba(74, 157, 184, 0.3);
+}
+
+/* Input focus grows subtly, not just border color */
+.form-control,
+.form-select {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+.form-control:focus,
+.form-select:focus {
+  transform: translateY(-1px);
+}
+
+/* Respect users who've asked for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-in,
+  .stagger-in > *,
+  .skeleton,
+  .btn,
+  .form-control,
+  .form-select {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

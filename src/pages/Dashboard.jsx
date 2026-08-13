@@ -10,9 +10,9 @@ import {
 } from "../services/resumeService";
 import ResumeCard from "../features/resume/ResumeCard";
 import ConfirmModal from "../components/ConfirmModal";
-import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 import ThemeToggle from "../components/ThemeToggle";
+import SkeletonCard from "../components/SkeletonCard";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -86,7 +86,7 @@ export default function Dashboard() {
     <>
       <Navbar bg="light" className="px-3 mb-4">
         <Navbar.Brand>Resume Builder</Navbar.Brand>
-         <ThemeToggle />
+        <ThemeToggle />
         <div className="ms-auto d-flex align-items-center gap-3">
           <span className="text-muted">{user?.email}</span>
           <Button variant="outline-secondary" size="sm" onClick={handleLogout}>
@@ -96,7 +96,7 @@ export default function Dashboard() {
       </Navbar>
 
       <Container className="dashboard-page">
-        <div className="page-header mb-4 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+        <div className="page-header mb-4 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 animate-in">
           <div>
             <h2>My Resumes</h2>
             <p className="mb-0 text-muted">Create, customize, and manage polished resumes from a modern dashboard.</p>
@@ -106,7 +106,7 @@ export default function Dashboard() {
           </Button>
         </div>
 
-        <div className="section-panel mb-4">
+        <div className="section-panel mb-4 animate-in">
           <InputGroup>
             <InputGroup.Text>🔍</InputGroup.Text>
             <Form.Control
@@ -120,17 +120,25 @@ export default function Dashboard() {
         {actionError && <ErrorMessage message={actionError} />}
 
         {loading ? (
-          <Loader message="Loading your resumes..." />
+          <Row xs={1} md={2} lg={3} className="g-4">
+            {[...Array(6)].map((_, i) => (
+              <Col key={i}>
+                <SkeletonCard />
+              </Col>
+            ))}
+          </Row>
         ) : error ? (
           <ErrorMessage message={error} onRetry={loadResumes} />
         ) : resumes.length === 0 ? (
-          <Alert variant="info">
+          <Alert variant="info" className="animate-in">
             You don't have any resumes yet. Click "New Resume" to create your first one.
           </Alert>
         ) : filteredResumes.length === 0 ? (
-          <Alert variant="secondary">No resumes match "{searchQuery}".</Alert>
+          <Alert variant="secondary" className="animate-in">
+            No resumes match "{searchQuery}".
+          </Alert>
         ) : (
-          <Row xs={1} md={2} lg={3} className="g-4">
+          <Row xs={1} md={2} lg={3} className="g-4 stagger-in">
             {filteredResumes.map((resume) => (
               <Col key={resume.id}>
                 <ResumeCard
