@@ -23,64 +23,90 @@ export default function TemplateModern({ data }) {
     return <ExternalLink size={14} />;
   };
 
+  const initials = (personalInfo.fullName || "Y N")
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase())
+    .join("");
+
   return (
     <div className="resume-template resume-template-modern">
       {/* Sidebar */}
       <div className="resume-template-sidebar">
-        <h4 className="mb-0">{personalInfo.fullName || "Your Name"}</h4>
-        <p className="mb-3 text-muted-light">{personalInfo.jobTitle}</p>
+        <div className="modern-sidebar-content">
+          <div className="modern-avatar">{initials}</div>
 
-        <div className="mb-3 small">
-          {personalInfo.email && <p className="mb-1">{personalInfo.email}</p>}
-          {personalInfo.phone && <p className="mb-1">{personalInfo.phone}</p>}
-          {personalInfo.address && <p className="mb-1">{personalInfo.address}</p>}
+          <h4 className="mb-0">{personalInfo.fullName || "Your Name"}</h4>
+          <p className="mb-3 text-muted-light">{personalInfo.jobTitle}</p>
+
+          <div className="modern-sidebar-divider" />
+
+          <div className="mb-3 small modern-contact">
+            {personalInfo.email && <p className="mb-1">{personalInfo.email}</p>}
+            {personalInfo.phone && <p className="mb-1">{personalInfo.phone}</p>}
+            {personalInfo.address && <p className="mb-1">{personalInfo.address}</p>}
+          </div>
+
+          {skills.length > 0 && (
+            <>
+              <div className="modern-sidebar-divider" />
+              <div className="mb-3">
+                <h6 className="section-heading">Skills</h6>
+                <div className="modern-tag-group">
+                  {skills.map((skill) => (
+                    <span key={skill.id} className="modern-tag">{skill.name}</span>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+
+          {languages.length > 0 && (
+            <>
+              <div className="modern-sidebar-divider" />
+              <div className="mb-3">
+                <h6 className="section-heading">Languages</h6>
+                {languages.map((lang) => (
+                  <div key={lang.id} className="modern-language-row">
+                    <span className="small">{lang.name}</span>
+                    <span className="modern-language-level">{lang.proficiency}</span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {socialLinks.length > 0 && (
+            <>
+              <div className="modern-sidebar-divider" />
+              <div className="mb-3">
+                <h6 className="section-heading">Links</h6>
+                {socialLinks.map((link) => (
+                  <div key={link.id} className="d-flex align-items-center gap-2 mb-2">
+                    <span className="modern-link-icon">{iconFor(link.platform)}</span>
+                    
+                     <a href={ensureProtocol(link.url)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="small text-muted-light modern-link-text"
+                    >
+                      {displayLink(link.url)}
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
-        {skills.length > 0 && (
-          <div className="mb-3">
-            <h6 className="section-heading">Skills</h6>
-            {skills.map((skill) => (
-              <p key={skill.id} className="mb-1 small">{skill.name}</p>
-            ))}
+        {/* Decorative footer — absorbs leftover height instead of leaving blank space */}
+        <div className="modern-sidebar-footer">
+          <div className="modern-sidebar-footer-line" />
+          <div className="modern-sidebar-footer-dots">
+            <span /><span /><span />
           </div>
-        )}
-
-        {languages.length > 0 && (
-          <div className="mb-3">
-            <h6 className="section-heading">Languages</h6>
-            {languages.map((lang) => (
-              <p key={lang.id} className="mb-1 small">{lang.name} — {lang.proficiency}</p>
-            ))}
-          </div>
-        )}
-
-        {socialLinks.length > 0 && (
-          <div className="mb-3">
-            <h6 className="section-heading">Links</h6>
-            {socialLinks.map((link) => (
-              <div key={link.id} className="d-flex align-items-center gap-2 mb-1">
-                
-                  < a href={ensureProtocol(link.url)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={link.platform}
-                  className="text-muted-light"
-                  style={{ display: "inline-flex" }}
-                >
-                  {iconFor(link.platform)}
-                </a>
-                
-                 < a href={ensureProtocol(link.url)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="small text-muted-light"
-                >
-                  {displayLink(link.url)}
-                </a>
-              </div>
-            ))}
-          </div>
-        )}
+        </div>
       </div>
 
       {/* Main column */}
@@ -95,29 +121,35 @@ export default function TemplateModern({ data }) {
         {experience.length > 0 && (
           <div className="section-block">
             <h6 className="section-heading">Experience</h6>
-            {experience.map((exp) => (
-              <div key={exp.id} className="mb-2">
-                <strong>{exp.role}</strong>
-                <p className="mb-0 small text-muted">
-                  {exp.company} • {exp.startDate} to {exp.current ? "Present" : exp.endDate}
-                </p>
-                <p className="mb-0 small">{exp.description}</p>
-              </div>
-            ))}
+            <div className="modern-timeline">
+              {experience.map((exp) => (
+                <div key={exp.id} className="modern-timeline-item">
+                  <div className="modern-timeline-dot" />
+                  <strong>{exp.role}</strong>
+                  <p className="mb-0 small text-muted">
+                    {exp.company} • {exp.startDate} to {exp.current ? "Present" : exp.endDate}
+                  </p>
+                  <p className="mb-0 small">{exp.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
         {education.length > 0 && (
           <div className="section-block">
             <h6 className="section-heading">Education</h6>
-            {education.map((edu) => (
-              <div key={edu.id} className="mb-2">
-                <strong>{edu.degree}{edu.field ? `, ${edu.field}` : ""}</strong>
-                <p className="mb-0 small text-muted">
-                  {edu.institution} • {edu.startDate} to {edu.endDate}
-                </p>
-              </div>
-            ))}
+            <div className="modern-timeline">
+              {education.map((edu) => (
+                <div key={edu.id} className="modern-timeline-item">
+                  <div className="modern-timeline-dot" />
+                  <strong>{edu.degree}{edu.field ? `, ${edu.field}` : ""}</strong>
+                  <p className="mb-0 small text-muted">
+                    {edu.institution} • {edu.startDate} to {edu.endDate}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
@@ -125,11 +157,11 @@ export default function TemplateModern({ data }) {
           <div className="section-block">
             <h6 className="section-heading">Projects</h6>
             {projects.map((proj) => (
-              <div key={proj.id} className="mb-2">
+              <div key={proj.id} className="modern-project-card">
                 <div className="d-flex align-items-center gap-2">
                   <strong>{proj.name}</strong>
                   {proj.link && (
-                    <a href={ensureProtocol(proj.link)} target="_blank" rel="noopener noreferrer" title="Project link">
+                    <a href={ensureProtocol(proj.link)} target="_blank" rel="noopener noreferrer" title="Project link" className="modern-link-icon">
                       {iconFor("website")}
                     </a>
                   )}

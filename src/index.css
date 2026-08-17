@@ -341,7 +341,7 @@ a:hover {
 }
 
 .resume-template-sidebar {
-  background: #2b4b6b;
+  background: var(--color-primary);
   color: #edf2f7;
   padding: 1.6rem;
   border-radius: var(--radius);
@@ -373,7 +373,24 @@ a:hover {
 .modern-sidebar-content {
   flex: 0 0 auto;
 }
+.resume-template-sidebar h4 {
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+}
 
+.modern-tag {
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+}
+
+.resume-template .section-heading {
+  letter-spacing: 0.06em; /* was 0.08em — slightly tighter, less "spaced out" look */
+  margin-bottom: 0.6rem;
+}
+
+.modern-timeline-item strong {
+  font-size: 0.92rem;
+}
 .modern-avatar {
   width: 56px;
   height: 56px;
