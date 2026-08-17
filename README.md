@@ -42,7 +42,7 @@ Built as a learning project to strengthen React component architecture, routing,
 | Forms | React Hook Form |
 | UI Components | React Bootstrap |
 | Backend / Auth / Database | Firebase (Authentication + Firestore) |
-| PDF Export | react-to-print |
+| PDF Export | jspdf |
 
 ---
 
