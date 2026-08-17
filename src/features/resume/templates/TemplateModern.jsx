@@ -1,3 +1,5 @@
+import { Linkedin, Github, Twitter, Globe, Link as LinkIcon, ExternalLink } from "lucide-react";
+
 export default function TemplateModern({ data }) {
   const { personalInfo, summary, education, experience, skills, projects, certifications, languages, socialLinks } = data;
 
@@ -9,6 +11,16 @@ export default function TemplateModern({ data }) {
     } catch {
       return url;
     }
+  };
+
+  const iconFor = (platform) => {
+    if (!platform) return <LinkIcon size={14} />;
+    const p = platform.toLowerCase();
+    if (p.includes("linkedin")) return <Linkedin size={14} />;
+    if (p.includes("github")) return <Github size={14} />;
+    if (p.includes("twitter")) return <Twitter size={14} />;
+    if (p.includes("web") || p.includes("portfolio") || p.includes("website")) return <Globe size={14} />;
+    return <ExternalLink size={14} />;
   };
 
   return (
@@ -46,7 +58,26 @@ export default function TemplateModern({ data }) {
           <div className="mb-3">
             <h6 className="section-heading">Links</h6>
             {socialLinks.map((link) => (
-              <p key={link.id} className="mb-1 small">{link.platform}: <a href={ensureProtocol(link.url)} target="_blank" rel="noopener noreferrer">{displayLink(link.url)}</a></p>
+              <div key={link.id} className="d-flex align-items-center gap-2 mb-1">
+                
+                  < a href={ensureProtocol(link.url)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={link.platform}
+                  className="text-muted-light"
+                  style={{ display: "inline-flex" }}
+                >
+                  {iconFor(link.platform)}
+                </a>
+                
+                 < a href={ensureProtocol(link.url)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="small text-muted-light"
+                >
+                  {displayLink(link.url)}
+                </a>
+              </div>
             ))}
           </div>
         )}
@@ -62,8 +93,8 @@ export default function TemplateModern({ data }) {
         )}
 
         {experience.length > 0 && (
-          <div className="mb-3">
-            <h6 className="text-uppercase" style={{ color: "#2c3e50" }}>Experience</h6>
+          <div className="section-block">
+            <h6 className="section-heading">Experience</h6>
             {experience.map((exp) => (
               <div key={exp.id} className="mb-2">
                 <strong>{exp.role}</strong>
@@ -77,8 +108,8 @@ export default function TemplateModern({ data }) {
         )}
 
         {education.length > 0 && (
-          <div className="mb-3">
-            <h6 className="text-uppercase" style={{ color: "#2c3e50" }}>Education</h6>
+          <div className="section-block">
+            <h6 className="section-heading">Education</h6>
             {education.map((edu) => (
               <div key={edu.id} className="mb-2">
                 <strong>{edu.degree}{edu.field ? `, ${edu.field}` : ""}</strong>
@@ -91,15 +122,19 @@ export default function TemplateModern({ data }) {
         )}
 
         {projects.length > 0 && (
-          <div className="mb-3">
-            <h6 className="text-uppercase" style={{ color: "#2c3e50" }}>Projects</h6>
+          <div className="section-block">
+            <h6 className="section-heading">Projects</h6>
             {projects.map((proj) => (
               <div key={proj.id} className="mb-2">
-                <strong>{proj.name}</strong>
+                <div className="d-flex align-items-center gap-2">
+                  <strong>{proj.name}</strong>
+                  {proj.link && (
+                    <a href={ensureProtocol(proj.link)} target="_blank" rel="noopener noreferrer" title="Project link">
+                      {iconFor("website")}
+                    </a>
+                  )}
+                </div>
                 <p className="mb-0 small">{proj.description}</p>
-                {proj.link && (
-                  <p className="mb-0 small text-muted"><a href={ensureProtocol(proj.link)} target="_blank" rel="noopener noreferrer">{displayLink(proj.link)}</a></p>
-                )}
                 {proj.techStack && <p className="mb-0 small fst-italic text-muted">{proj.techStack}</p>}
               </div>
             ))}
@@ -107,8 +142,8 @@ export default function TemplateModern({ data }) {
         )}
 
         {certifications.length > 0 && (
-          <div className="mb-3">
-            <h6 className="text-uppercase" style={{ color: "#2c3e50" }}>Certifications</h6>
+          <div className="section-block">
+            <h6 className="section-heading">Certifications</h6>
             {certifications.map((cert) => (
               <p key={cert.id} className="mb-1 small">
                 {cert.name} — {cert.issuer} ({cert.date})
