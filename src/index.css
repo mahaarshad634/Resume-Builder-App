@@ -79,12 +79,6 @@ a:hover {
   letter-spacing: -0.02em;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  color: var(--color-ink);
-}
-
 /* Buttons: rebuild primary using our token, since Bootstrap's
    .btn-primary background/border don't fully inherit from --bs-primary alone */
 .btn-primary {
@@ -113,14 +107,6 @@ h1, h2, h3, h4, h5, h6 {
 .card:hover {
   border-left: 3px solid var(--color-primary);
   box-shadow: 0 2px 10px rgba(26, 34, 51, 0.06);
-}
-
-/* Navbar brand gets the serif treatment */
-.navbar-brand {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  color: var(--color-ink) !important;
-  letter-spacing: -0.01em;
 }
 
 /* Text muted uses our token for consistency */
@@ -345,6 +331,9 @@ h1, h2, h3, h4, h5, h6 {
   color: #4a5568;
 }
 
+/* ==========================================================
+   MODERN TEMPLATE
+   ========================================================== */
 .resume-template-modern {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(300px, 1.8fr);
@@ -356,6 +345,10 @@ h1, h2, h3, h4, h5, h6 {
   color: #edf2f7;
   padding: 1.6rem;
   border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
 }
 
 .resume-template-sidebar p,
@@ -375,6 +368,163 @@ h1, h2, h3, h4, h5, h6 {
   padding: 1.6rem;
 }
 
+/* Sidebar content wrapper — only takes the height it needs,
+   leaving the footer below to absorb any leftover grid height */
+.modern-sidebar-content {
+  flex: 0 0 auto;
+}
+
+.modern-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 0.9rem;
+}
+
+.modern-sidebar-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 1rem 0;
+}
+
+.modern-contact p {
+  color: #dce6f0;
+}
+
+.modern-tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.modern-tag {
+  font-size: 0.72rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #edf2f7;
+}
+
+.modern-language-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.modern-language-level {
+  font-size: 0.72rem;
+  color: #a9bfd4;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.modern-link-icon {
+  display: inline-flex;
+  align-items: center;
+  color: #cdd9e5;
+}
+
+.modern-link-text {
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+  transition: border-color 0.15s ease;
+}
+.modern-link-text:hover {
+  border-color: currentColor;
+}
+
+/* Footer pinned to the bottom of the sidebar via margin-top: auto —
+   fixes the "empty space at the bottom of a short sidebar" issue */
+.modern-sidebar-footer {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.modern-sidebar-footer-line {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin-bottom: 0.9rem;
+}
+
+.modern-sidebar-footer-dots {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  opacity: 0.5;
+}
+
+.modern-sidebar-footer-dots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* Timeline (Experience / Education) in the main column */
+.modern-timeline {
+  position: relative;
+  padding-left: 1rem;
+}
+.modern-timeline::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 4px;
+  bottom: 4px;
+  width: 1.5px;
+  background: var(--color-border);
+}
+.modern-timeline-item {
+  position: relative;
+  padding-bottom: 1.1rem;
+}
+.modern-timeline-item:last-child {
+  padding-bottom: 0;
+}
+.modern-timeline-dot {
+  position: absolute;
+  left: -1rem;
+  top: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid var(--color-surface);
+}
+
+/* Project cards in the main column */
+.modern-project-card {
+  padding: 0.6rem 0.8rem;
+  border-left: 2px solid var(--color-border);
+  margin-bottom: 0.7rem;
+  transition: border-color 0.15s ease;
+}
+.modern-project-card:hover {
+  border-left-color: var(--color-primary);
+}
+
+@media (max-width: 991px) {
+  .resume-template-modern {
+    grid-template-columns: 1fr;
+  }
+  .resume-template-sidebar {
+    height: auto;
+  }
+}
+
+/* ==========================================================
+   DASHBOARD / RESUME CARDS
+   ========================================================== */
 .resume-card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -420,12 +570,6 @@ h1, h2, h3, h4, h5, h6 {
   padding: 24px 0 48px;
 }
 
-@media (max-width: 991px) {
-  .resume-template-modern {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (max-width: 767px) {
   .navbar {
     padding: 0.85rem 1rem !important;
@@ -437,7 +581,10 @@ h1, h2, h3, h4, h5, h6 {
     padding: 1.25rem;
   }
 }
-/* ---- Dark mode ---- */
+
+/* ==========================================================
+   DARK MODE
+   ========================================================== */
 [data-theme="dark"] {
   --color-ink: #e8eaed;
   --color-primary: #4a9db8;
@@ -577,21 +724,38 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom-color: var(--color-border);
 }
 
-[data-theme="dark"] .resume-preview-shell,
+[data-theme="dark"] .page-header,
 [data-theme="dark"] .section-panel,
-[data-theme="dark"] .page-header {
+[data-theme="dark"] .resume-preview-shell {
   background-color: var(--color-surface);
   border-color: var(--color-border);
+  box-shadow: none;
 }
 
+[data-theme="dark"] .page-header p,
+[data-theme="dark"] .preview-title {
+  color: var(--color-muted);
+}
+
+[data-theme="dark"] .dashboard-page,
+[data-theme="dark"] .resume-editor-page {
+  background-color: transparent;
+}
+
+[data-theme="dark"] .resume-card .card-subtitle {
+  color: var(--color-muted);
+}
+
+/* The resume document itself (inside the preview) intentionally stays light —
+   like a real document/PDF, it shouldn't flip to dark mode with the app UI */
 [data-theme="dark"] .resume-preview-root,
 [data-theme="dark"] .resume-template {
   background-color: #fdfdfd;
 }
 
-[data-theme="dark"] .preview-title,
-[data-theme="dark"] .page-header p {
-  color: var(--color-muted);
+[data-theme="dark"] .modern-sidebar-divider,
+[data-theme="dark"] .modern-sidebar-footer-line {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* Smooth theme switch */
@@ -607,7 +771,9 @@ body,
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-/* ---- Entrance animations ---- */
+/* ==========================================================
+   ANIMATIONS
+   ========================================================== */
 @keyframes fadeSlideUp {
   from {
     opacity: 0;
@@ -623,7 +789,6 @@ body,
   animation: fadeSlideUp 0.35s ease both;
 }
 
-/* Stagger children by nth-child, up to 12 items */
 .stagger-in > * {
   animation: fadeSlideUp 0.35s ease both;
 }
@@ -693,17 +858,11 @@ body,
   box-shadow: 0 4px 14px rgba(74, 157, 184, 0.3);
 }
 
-/* Input focus grows subtly, not just border color */
-.form-control,
-.form-select {
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
-}
 .form-control:focus,
 .form-select:focus {
   transform: translateY(-1px);
 }
 
-/* Respect users who've asked for reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .animate-in,
   .stagger-in > *,
@@ -715,41 +874,4 @@ body,
     transition: none !important;
     transform: none !important;
   }
-}[data-theme="dark"] .page-header,
-[data-theme="dark"] .section-panel,
-[data-theme="dark"] .resume-preview-shell {
-  background-color: var(--color-surface);
-  border-color: var(--color-border);
-  box-shadow: none;
-}
-
-[data-theme="dark"] .page-header p,
-[data-theme="dark"] .preview-title {
-  color: var(--color-muted);
-}
-
-[data-theme="dark"] .dashboard-page,
-[data-theme="dark"] .resume-editor-page {
-  background-color: transparent;
-}
-
-[data-theme="dark"] .resume-card {
-  background-color: var(--color-surface);
-  border-color: var(--color-border);
-}
-
-[data-theme="dark"] .resume-card .card-subtitle {
-  color: var(--color-muted);
-}
-
-/* The resume document itself (inside the preview) intentionally stays light —
-   like a real document/PDF, it shouldn't flip to dark mode with the app UI */
-[data-theme="dark"] .resume-preview-root,
-[data-theme="dark"] .resume-template {
-  background-color: #ffffff;
-}
-
-/* But the *shell* wrapping the preview (outside the white "page") goes dark */
-[data-theme="dark"] .resume-preview-shell {
-  background-color: var(--color-surface);
 }
