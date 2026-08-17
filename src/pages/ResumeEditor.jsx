@@ -48,16 +48,17 @@ export default function ResumeEditor() {
   }, [debouncedResumeData]);
 
   useEffect(() => {
-    // apply saved theme colors if present
+    // Apply saved palette colors — brand colors only.
+    // bg/surface/border are intentionally NOT set here: those belong to
+    // light/dark mode (controlled by ThemeContext via data-theme on <html>),
+    // not the color palette. Setting them here as inline styles would
+    // permanently override dark mode's CSS variables on this page.
     if (resumeData?.themeColors) {
       const c = resumeData.themeColors;
       const root = document.documentElement;
       root.style.setProperty("--color-primary", c.primary || "#235a7e");
       root.style.setProperty("--color-primary-hover", c.primaryHover || "#1b4a65");
       root.style.setProperty("--color-accent", c.accent || "#f0a845");
-      root.style.setProperty("--color-bg", c.bg || "#eef4f9");
-      root.style.setProperty("--color-surface", c.surface || "#ffffff");
-      root.style.setProperty("--color-border", c.border || "#d7e1e9");
     }
   }, [resumeData?.themeColors]);
 
@@ -88,8 +89,6 @@ export default function ResumeEditor() {
       </Container>
     );
   }
-
-  
 
   return (
     <div className="resume-editor-page">
@@ -124,7 +123,7 @@ export default function ResumeEditor() {
           />
           <ThemeToggle />
           {saveError && <span className="text-danger">{saveError}</span>}
-          <Button variant="outline-primary" size="sm"  onClick={() => exportResumeToPdf(resumeData)}>
+          <Button variant="outline-primary" size="sm" onClick={() => exportResumeToPdf(resumeData)}>
             Download PDF
           </Button>
           <Button variant="primary" size="sm" onClick={save} disabled={saving || !isDirty}>
@@ -133,29 +132,29 @@ export default function ResumeEditor() {
         </div>
       </Navbar>
 
-   <Container fluid className="animate-in">
-  <div className="page-header mb-4">
-    <div>
-      <h2>Resume Editor</h2>
-      <p className="mb-0 text-muted">Edit content, choose a template, and preview your resume in real time.</p>
-    </div>
-  </div>
+      <Container fluid className="animate-in">
+        <div className="page-header mb-4">
+          <div>
+            <h2>Resume Editor</h2>
+            <p className="mb-0 text-muted">Edit content, choose a template, and preview your resume in real time.</p>
+          </div>
+        </div>
 
-  <Row className="g-4">
-    <Col xs={12} md={6}>
-      <div className="section-panel">
-        <h5 className="mb-4">Resume Details</h5>
-        <ResumeForm resumeData={resumeData} updateSection={updateSection} />
-      </div>
-    </Col>
-    <Col xs={12} md={6}>
-      <div className="resume-preview-shell">
-        <div className="preview-title">Live Preview</div>
-        <ResumePreview resumeData={resumeData} ref={previewRef} />
-      </div>
-    </Col>
-  </Row>
-</Container>
+        <Row className="g-4">
+          <Col xs={12} md={6}>
+            <div className="section-panel">
+              <h5 className="mb-4">Resume Details</h5>
+              <ResumeForm resumeData={resumeData} updateSection={updateSection} />
+            </div>
+          </Col>
+          <Col xs={12} md={6}>
+            <div className="resume-preview-shell">
+              <div className="preview-title">Live Preview</div>
+              <ResumePreview resumeData={resumeData} ref={previewRef} />
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
