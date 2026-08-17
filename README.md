@@ -158,6 +158,7 @@ The app will be available at `http://localhost:5173`.
 |---|---|
 | **Classic** | Single-column, traditional resume layout |
 | **Modern** | Two-column layout with a dark sidebar for contact info, skills, and languages |
+| **Minimal** | Simple and clean design  |
 | **Bold** | Colored header banner with accented section dividers |
 
 New templates can be added by creating a component in `src/features/resume/templates/` and registering it in `templateRegistry.js` — no other code changes required.
