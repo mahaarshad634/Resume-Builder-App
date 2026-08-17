@@ -22,7 +22,7 @@ Built as a learning project to strengthen React component architecture, routing,
 ### Resume Editor
 - Nine reusable sections: Personal Information, Professional Summary, Education, Experience, Skills, Projects, Certifications, Languages, and Social Links
 - Live preview that updates instantly as you edit
-- Multiple templates (**Classic**, **Modern**, **Bold**) — the same data rendered in completely different layouts
+- Multiple templates (**Classic**, **Modern**, **Bold**, **Minimal**) — the same data rendered in completely different layouts
 - Download your resume as a PDF
 
 ### UX & Polish
