@@ -715,4 +715,41 @@ body,
     transition: none !important;
     transform: none !important;
   }
+}[data-theme="dark"] .page-header,
+[data-theme="dark"] .section-panel,
+[data-theme="dark"] .resume-preview-shell {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .page-header p,
+[data-theme="dark"] .preview-title {
+  color: var(--color-muted);
+}
+
+[data-theme="dark"] .dashboard-page,
+[data-theme="dark"] .resume-editor-page {
+  background-color: transparent;
+}
+
+[data-theme="dark"] .resume-card {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .resume-card .card-subtitle {
+  color: var(--color-muted);
+}
+
+/* The resume document itself (inside the preview) intentionally stays light —
+   like a real document/PDF, it shouldn't flip to dark mode with the app UI */
+[data-theme="dark"] .resume-preview-root,
+[data-theme="dark"] .resume-template {
+  background-color: #ffffff;
+}
+
+/* But the *shell* wrapping the preview (outside the white "page") goes dark */
+[data-theme="dark"] .resume-preview-shell {
+  background-color: var(--color-surface);
 }
