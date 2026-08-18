@@ -1,15 +1,20 @@
+import { useState } from "react";
 import { Card, Button, Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 export default function ResumeCard({ resume, onDuplicate, onDelete }) {
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const formattedDate = resume.updatedAt?.toDate
     ? resume.updatedAt.toDate().toLocaleDateString()
     : "Just now";
 
   return (
-    <Card className="h-100 shadow-sm">
+    <Card
+      className="h-100 shadow-sm"
+      style={{ position: "relative", zIndex: isDropdownOpen ? 1050 : 1 }}
+    >
       <Card.Body className="d-flex flex-column">
         <Card.Title>{resume.title}</Card.Title>
         <Card.Subtitle className="mb-3 text-muted">
@@ -25,7 +30,7 @@ export default function ResumeCard({ resume, onDuplicate, onDelete }) {
             Edit
           </Button>
 
-          <Dropdown>
+          <Dropdown onToggle={(nextOpen) => setIsDropdownOpen(nextOpen)}>
             <Dropdown.Toggle variant="outline-secondary" size="sm">
               Actions
             </Dropdown.Toggle>
