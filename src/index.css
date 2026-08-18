@@ -549,7 +549,20 @@ a:hover {
 .resume-card:hover {
   box-shadow: var(--color-shadow);
 }
+.resume-card {
+  position: relative;
+  z-index: 1;
+}
 
+/* When a card's dropdown is open, lift that card above its siblings
+   so the menu isn't hidden behind the next card in the column */
+.resume-card:has(.dropdown-menu.show) {
+  z-index: 50;
+}
+
+.dropdown-menu {
+  z-index: 2000;
+}
 .resume-card .card-body {
   display: flex;
   flex-direction: column;
