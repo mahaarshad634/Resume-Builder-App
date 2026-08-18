@@ -1,5 +1,4 @@
-import { Dropdown, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import React from "react";
+import { Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const PALETTES = [
   {
@@ -154,14 +153,24 @@ export default function ColorPalette({ currentColors = {}, onSelect }) {
   };
 
   return (
-    <Dropdown align="end" className="me-2">
+    <Dropdown className="me-2">
       <Dropdown.Toggle variant="light" size="sm" id="color-palette-dropdown">
         Palette
       </Dropdown.Toggle>
 
-      <Dropdown.Menu>
+      <Dropdown.Menu
+        popperConfig={{
+          strategy: "fixed",
+          modifiers: [{ name: "preventOverflow", options: { boundary: "viewport", padding: 8 } }],
+        }}
+        style={{ maxWidth: "min(280px, 90vw)", maxHeight: "60vh", overflowY: "auto" }}
+      >
         {PALETTES.map((p) => (
-          <OverlayTrigger key={p.id} placement="right" overlay={<Tooltip id={`tp-${p.id}`}>{p.label}</Tooltip>}>
+          <OverlayTrigger
+            key={p.id}
+            placement="right"
+            overlay={<Tooltip id={`tp-${p.id}`}>{p.label}</Tooltip>}
+          >
             <Dropdown.Item onClick={() => applyPalette(p.colors)}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
                 <div style={{ width: 20, height: 14, background: p.colors.primary, borderRadius: 2, border: "1px solid #eee" }} />
