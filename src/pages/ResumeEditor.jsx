@@ -1,17 +1,20 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button, Alert, Navbar, Form } from "react-bootstrap";
-import { useEffect, useRef } from "react";
+import { Container, Row, Col, Button, Alert, Navbar, Form, Dropdown } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
+import { MoreVertical, Copy, Trash2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import ResumeForm from "../features/resume/ResumeForm";
 import ResumePreview from "../features/resume/ResumePreview";
 import { useResume } from "../hooks/useResume";
 import { useDebounce } from "../hooks/useDebounce";
 import { templateOptions } from "../features/resume/templates/templateRegistry";
+import { duplicateResume, deleteResume } from "../services/resumeService";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 import ThemeToggle from "../components/ThemeToggle";
 import ColorPalette from "../components/ColorPalette";
+import ConfirmModal from "../components/ConfirmModal";
 import { exportResumeToPdf } from "../utils/exportResumePdf";
 
 export default function ResumeEditor() {
@@ -21,6 +24,10 @@ export default function ResumeEditor() {
 
   const { resumeData, loading, saving, error, saveError, isDirty, updateSection, save } =
     useResume(user?.uid, id);
+
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [actionError, setActionError] = useState("");
 
   const previewRef = useRef();
   const handlePrint = useReactToPrint({
@@ -61,6 +68,31 @@ export default function ResumeEditor() {
       root.style.setProperty("--color-accent", c.accent || "#f0a845");
     }
   }, [resumeData?.themeColors]);
+
+  const handleDuplicate = async () => {
+    setActionError("");
+    setActionLoading(true);
+    try {
+      const newId = await duplicateResume(user.uid, id);
+      navigate(`/resume/${newId}`);
+    } catch (err) {
+      setActionError("Could not duplicate this resume. Please try again.");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleDeleteConfirmed = async () => {
+    setActionError("");
+    setActionLoading(true);
+    try {
+      await deleteResume(user.uid, id);
+      navigate("/dashboard");
+    } catch (err) {
+      setActionError("Could not delete this resume. Please try again.");
+      setActionLoading(false);
+    }
+  };
 
   if (loading) {
     return <Loader message="Loading your resume..." />;
@@ -122,7 +154,29 @@ export default function ResumeEditor() {
             onSelect={(colors) => updateSection("themeColors", colors)}
           />
           <ThemeToggle />
+
+          <Dropdown>
+            <Dropdown.Toggle variant="outline-secondary" size="sm">
+              <MoreVertical size={15} />
+            </Dropdown.Toggle>
+            <Dropdown.Menu align="end">
+              <Dropdown.Item onClick={handleDuplicate} disabled={actionLoading}>
+                <Copy size={14} className="me-2" />
+                Duplicate
+              </Dropdown.Item>
+              <Dropdown.Item
+                className="text-danger"
+                onClick={() => setShowDeleteConfirm(true)}
+                disabled={actionLoading}
+              >
+                <Trash2 size={14} className="me-2" />
+                Delete
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+
           {saveError && <span className="text-danger">{saveError}</span>}
+          {actionError && <span className="text-danger">{actionError}</span>}
           <Button variant="outline-primary" size="sm" onClick={() => exportResumeToPdf(resumeData)}>
             Download PDF
           </Button>
@@ -155,6 +209,14 @@ export default function ResumeEditor() {
           </Col>
         </Row>
       </Container>
+
+      <ConfirmModal
+        show={showDeleteConfirm}
+        title="Delete Resume"
+        body="Are you sure you want to delete this resume? This cannot be undone."
+        onConfirm={handleDeleteConfirmed}
+        onCancel={() => setShowDeleteConfirm(false)}
+      />
     </div>
   );
 }
