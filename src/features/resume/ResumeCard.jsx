@@ -30,7 +30,7 @@ export default function ResumeCard({ resume, onDuplicate, onDelete }) {
             Edit
           </Button>
 
-          <Dropdown onToggle={(nextOpen) => setIsDropdownOpen(nextOpen)}>
+          {/* <Dropdown onToggle={(nextOpen) => setIsDropdownOpen(nextOpen)}>
             <Dropdown.Toggle variant="outline-secondary" size="sm">
               Actions
             </Dropdown.Toggle>
@@ -45,7 +45,7 @@ export default function ResumeCard({ resume, onDuplicate, onDelete }) {
                 Delete
               </Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
+          </Dropdown> */}
         </div>
       </Card.Body>
     </Card>
