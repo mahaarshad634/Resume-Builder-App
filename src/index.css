@@ -1,3 +1,13 @@
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 :root {
   --color-ink: #1f2d3d;
   --color-primary: #235a7e;
@@ -589,10 +599,11 @@ a:hover {
 .resume-card-actions {
   margin-top: auto;
   display: flex;
-  gap: 0.8rem;
+  gap: 0.6rem;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  min-width: 0;
 }
 
 .resume-card .dropdown {

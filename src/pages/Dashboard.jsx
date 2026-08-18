@@ -84,7 +84,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <Navbar bg="light" className="px-3 mb-4">
+      <Navbar bg="light" className="px-3 mb-4 flex-wrap gap-2">
         <Navbar.Brand>Resume Builder</Navbar.Brand>
         <ThemeToggle />
         <div className="ms-auto d-flex align-items-center gap-3">
