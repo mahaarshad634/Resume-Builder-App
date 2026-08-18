@@ -21,7 +21,7 @@ export default function ResumeCard({ resume, onDuplicate, onDelete }) {
           Last updated: {formattedDate}
         </Card.Subtitle>
 
-        <div className="mt-auto d-flex justify-content-between align-items-center">
+        <div className=" resume-card-actions mt-auto d-flex justify-content-between align-items-center">
           <Button
             variant="primary"
             size="sm"
