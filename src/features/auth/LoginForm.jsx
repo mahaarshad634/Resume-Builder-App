@@ -3,8 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../../context/AuthContext";
-import { fetchSignInMethodsForEmail, GithubAuthProvider, linkWithCredential } from "firebase/auth";
-import { auth } from "../../services/firebase";
 
 const errorMessages = {
   "auth/user-not-found": "No account found with this email.",
@@ -12,6 +10,8 @@ const errorMessages = {
   "auth/invalid-credential": "Invalid email or password.",
   "auth/too-many-requests": "Too many attempts. Try again later.",
   "auth/popup-closed-by-user": "Sign-in was cancelled.",
+  "auth/account-exists-with-different-credential":
+    "This email is already registered with a different sign-in method. Please log in the way you signed up the first time.",
 };
 
 export default function LoginForm() {
@@ -44,26 +44,15 @@ export default function LoginForm() {
     }
   };
 
-const handleGithubLogin = async () => {
-  setFirebaseError("");
-  try {
-    await loginWithGithub();
-    navigate("/dashboard");
-  } catch (err) {
-    if (err.code === "auth/account-exists-with-different-credential") {
-      const email = err.customData?.email;
-      const pendingCred = GithubAuthProvider.credentialFromError(err);
-      const methods = await fetchSignInMethodsForEmail(auth, email);
-
-      setFirebaseError(
-        `This email is already registered using ${methods[0]}. Please log in that way first, then link GitHub from your account settings.`
-      );
-      // Note: pendingCred is available here if you build an account-linking flow later
-    } else {
+  const handleGithubLogin = async () => {
+    setFirebaseError("");
+    try {
+      await loginWithGithub();
+      navigate("/dashboard");
+    } catch (err) {
       setFirebaseError(errorMessages[err.code] || "GitHub sign-in failed. Please try again.");
     }
-  }
-};
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} noValidate>
