@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 
 const errorMessages = {
   "auth/email-already-in-use": "An account with this email already exists.",
-  "auth/weak-password": "Password should be at least 6 characters.",
+  "auth/weak-password": "Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a symbol.",
   "auth/invalid-email": "Please enter a valid email address.",
   "auth/popup-closed-by-user": "Sign-in was cancelled.",
   "auth/account-exists-with-different-credential":
@@ -73,22 +73,26 @@ export default function SignupForm() {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          type="password"
-          placeholder="At least 6 characters"
-          autoComplete="new-password"
-          isInvalid={!!errors.password}
-          {...register("password", {
-            required: "Password is required",
-            minLength: { value: 6, message: "Password must be at least 6 characters" },
-          })}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.password?.message}
-        </Form.Control.Feedback>
-      </Form.Group>
+   <Form.Group className="mb-3">
+  <Form.Label>Password</Form.Label>
+  <Form.Control
+    type="password"
+    placeholder="At least 8 characters, with a number, both cases, and a symbol"
+    autoComplete="new-password"
+    isInvalid={!!errors.password}
+    {...register("password", {
+      required: "Password is required",
+      minLength: { value: 8, message: "Password must be at least 8 characters" },
+      pattern: {
+        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/,
+        message: "Password must include an uppercase letter, a lowercase letter, a number, and a symbol",
+      },
+    })}
+  />
+  <Form.Control.Feedback type="invalid">
+    {errors.password?.message}
+  </Form.Control.Feedback>
+</Form.Group>
 
       <Form.Group className="mb-3">
         <Form.Label>Confirm Password</Form.Label>
