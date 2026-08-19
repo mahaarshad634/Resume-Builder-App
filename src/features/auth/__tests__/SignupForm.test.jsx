@@ -27,7 +27,7 @@ describe('SignupForm', () => {
     );
 
     expect(screen.getByPlaceholderText(/you@example.com/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/At least 6 characters/i)).toBeInTheDocument();
+   expect(screen.getByPlaceholderText(/At least 8 characters/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Re-enter your password/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument();
   });
