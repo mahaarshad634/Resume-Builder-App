@@ -4,14 +4,7 @@ export default function TemplateClassic({ data }) {
   const { personalInfo, summary, education, experience, skills, projects, certifications, languages, socialLinks } = data;
 
   const ensureProtocol = (url) => (url && !/^https?:\/\//i.test(url) ? `https://${url}` : url);
-  const displayLink = (url) => {
-    try {
-      const u = new URL(ensureProtocol(url));
-      return u.hostname + (u.pathname && u.pathname !== "/" ? u.pathname : "");
-    } catch {
-      return url;
-    }
-  };
+
 console.log("Social links data:", socialLinks);
   const iconFor = (platform) => {
     if (!platform) return <LinkIcon size={16} />;
@@ -126,7 +119,7 @@ console.log("Social links data:", socialLinks);
         <div className="mb-3">
           <h6 className="border-bottom pb-1">Links</h6>
           <p className="mb-0 small">
-            {socialLinks.map((link, idx) => (
+           {socialLinks.map((link) => (
               <a
                 key={link.id}
                 href={ensureProtocol(link.url)}

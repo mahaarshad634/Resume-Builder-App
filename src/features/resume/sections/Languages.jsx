@@ -1,4 +1,4 @@
-import { Form, Row, Col, Button, Card } from "react-bootstrap";
+import { Form, Row, Col, Button } from "react-bootstrap";
 
 const blankEntry = () => ({
   id: crypto.randomUUID(),

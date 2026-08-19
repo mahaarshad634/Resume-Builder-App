@@ -63,7 +63,9 @@ export async function deleteResume(uid, resumeId) {
 // Duplicate an existing resume as a new document
 export async function duplicateResume(uid, resumeId) {
   const original = await getResume(uid, resumeId);
-  const { id, createdAt, updatedAt, ...rest } = original;
+// eslint-disable-next-line no-unused-vars -- intentionally destructured out of rest so the duplicate gets a fresh id/timestamps
+const { id, createdAt, updatedAt, ...rest } = original;  
+
 
   const docRef = await addDoc(resumesRef(uid), {
     ...rest,

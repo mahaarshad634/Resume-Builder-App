@@ -147,7 +147,7 @@ const PALETTES = [
   },
 ];
 
-export default function ColorPalette({ currentColors = {}, onSelect }) {
+export default function ColorPalette({ onSelect }) {
   const applyPalette = (colors) => {
     if (onSelect) onSelect(colors);
   };

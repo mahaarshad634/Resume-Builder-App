@@ -24,6 +24,7 @@ export function useResume(uid, resumeId) {
           isFirstLoad.current = true;
         }
       } catch (err) {
+        console.error("Failed to load resume:", err);
         if (isMounted) setError("Could not load this resume.");
       } finally {
         if (isMounted) setLoading(false);
@@ -50,6 +51,7 @@ export function useResume(uid, resumeId) {
       await updateResume(uid, resumeId, resumeData);
       setIsDirty(false);
     } catch (err) {
+      console.error("Failed to save resume:", err);
       setSaveError("Could not save. Please try again.");
     } finally {
       setSaving(false);

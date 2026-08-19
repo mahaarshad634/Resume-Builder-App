@@ -503,7 +503,7 @@ function drawModern(doc, data, colors) {
         doc.text(proj.name, mainX + 3, y);
       }
       y += 4.5;
-      const beforeDescY = y;
+     
       addMainText(proj.description);
       // shift text indent for description too
       doc.setFillColor(...colors.accent);

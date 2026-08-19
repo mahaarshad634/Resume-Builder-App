@@ -14,14 +14,7 @@ export default function TemplateBold({ data }) {
   } = data;
 
   const ensureProtocol = (url) => (url && !/^https?:\/\//i.test(url) ? `https://${url}` : url);
-  const displayLink = (url) => {
-    try {
-      const u = new URL(ensureProtocol(url));
-      return u.hostname + (u.pathname && u.pathname !== "/" ? u.pathname : "");
-    } catch {
-      return url;
-    }
-  };
+  
 
   const iconFor = (platform) => {
     if (!platform) return <LinkIcon size={16} />;

@@ -23,4 +23,5 @@ export function ThemeProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components -- intentional: useTheme is a small companion hook for ThemeProvider
 export const useTheme = () => useContext(ThemeContext);

@@ -69,4 +69,5 @@ export function AuthProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components -- intentional: useAuth is a small companion hook for AuthProvider
 export const useAuth = () => useContext(AuthContext);

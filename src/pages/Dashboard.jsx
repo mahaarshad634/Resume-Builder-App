@@ -32,15 +32,17 @@ export default function Dashboard() {
       const data = await getResumes(user.uid);
       setResumes(data);
     } catch (err) {
+      console.error("Failed to load resumes:", err);
       setError("Could not load your resumes.");
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (user) loadResumes();
-  }, [user]);
+ useEffect(() => {
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional immediate fetch on mount/user change
+  if (user) loadResumes();
+}, [user]); // eslint-disable-line react-hooks/exhaustive-deps -- only re-run when `user` changes; loadResumes is redefined every render
 
   const handleCreate = async () => {
     setActionError("");
@@ -48,6 +50,7 @@ export default function Dashboard() {
       const newId = await createResume(user.uid);
       navigate(`/resume/${newId}`);
     } catch (err) {
+      console.error("Failed to create resume:", err);
       setActionError("Could not create a new resume. Please try again.");
     }
   };
@@ -58,6 +61,7 @@ export default function Dashboard() {
       await duplicateResume(user.uid, resumeId);
       loadResumes();
     } catch (err) {
+      console.error("Failed to duplicate resume:", err);
       setActionError("Could not duplicate this resume. Please try again.");
     }
   };
@@ -69,6 +73,7 @@ export default function Dashboard() {
       setDeleteTargetId(null);
       loadResumes();
     } catch (err) {
+      console.error("Failed to delete resume:", err);
       setActionError("Could not delete this resume. Please try again.");
     }
   };

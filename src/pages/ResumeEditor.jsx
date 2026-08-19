@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button, Alert, Navbar, Form, Dropdown } from "react-bootstrap";
-import { useEffect, useRef, useState } from "react";
-import { useReactToPrint } from "react-to-print";
+import { Container, Row, Col, Button,  Navbar, Form, Dropdown } from "react-bootstrap";
+import { useEffect,  useState } from "react";
+
 import { MoreVertical, Copy, Trash2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import ResumeForm from "../features/resume/ResumeForm";
@@ -29,11 +29,7 @@ export default function ResumeEditor() {
   const [actionLoading, setActionLoading] = useState(false);
   const [actionError, setActionError] = useState("");
 
-  const previewRef = useRef();
-  const handlePrint = useReactToPrint({
-    contentRef: previewRef,
-    documentTitle: resumeData?.title || "Resume",
-  });
+
 
   useEffect(() => {
     const handleBeforeUnload = (e) => {
@@ -49,10 +45,10 @@ export default function ResumeEditor() {
   const debouncedResumeData = useDebounce(resumeData, 1500);
 
   useEffect(() => {
-    if (isDirty && debouncedResumeData && !loading) {
-      save();
-    }
-  }, [debouncedResumeData]);
+  if (isDirty && debouncedResumeData && !loading) {
+    save();
+  }
+}, [debouncedResumeData]); // eslint-disable-line react-hooks/exhaustive-deps -- intentionally excludes save/isDirty/loading to avoid an endless auto-save loop
 
   useEffect(() => {
     // Apply saved palette colors — brand colors only.
@@ -76,6 +72,7 @@ export default function ResumeEditor() {
       const newId = await duplicateResume(user.uid, id);
       navigate(`/resume/${newId}`);
     } catch (err) {
+      console.error("Failed to duplicate resume:", err);
       setActionError("Could not duplicate this resume. Please try again.");
     } finally {
       setActionLoading(false);
@@ -89,6 +86,7 @@ export default function ResumeEditor() {
       await deleteResume(user.uid, id);
       navigate("/dashboard");
     } catch (err) {
+      console.error("Failed to delete resume:", err);
       setActionError("Could not delete this resume. Please try again.");
       setActionLoading(false);
     }
@@ -204,7 +202,7 @@ export default function ResumeEditor() {
           <Col xs={12} md={6}>
             <div className="resume-preview-shell">
               <div className="preview-title">Live Preview</div>
-              <ResumePreview resumeData={resumeData} ref={previewRef} />
+              <ResumePreview resumeData={resumeData}  />
             </div>
           </Col>
         </Row>
