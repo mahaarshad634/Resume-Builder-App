@@ -44,7 +44,82 @@ export default function TemplateMinimal({ data }) {
         </div>
       )}
 
-      {/* ...repeat the same minimal pattern for education, projects, skills, etc. */}
+      {education.length > 0 && (
+        <div className="mb-4">
+          <h6 className="text-uppercase small fw-bold mb-3" style={{ letterSpacing: "0.08em" }}>Education</h6>
+          {education.map((edu) => (
+            <div key={edu.id} className="mb-3">
+              <div className="d-flex justify-content-between">
+                <strong>{edu.degree}{edu.field ? `, ${edu.field}` : ""}, {edu.institution}</strong>
+                <span className="small text-muted">{edu.startDate} – {edu.endDate}</span>
+              </div>
+              {edu.description && <p className="mb-0 small text-muted">{edu.description}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {projects.length > 0 && (
+        <div className="mb-4">
+          <h6 className="text-uppercase small fw-bold mb-3" style={{ letterSpacing: "0.08em" }}>Projects</h6>
+          {projects.map((proj) => (
+            <div key={proj.id} className="mb-3">
+              <div className="d-flex justify-content-between">
+                <strong>{proj.name}</strong>
+                {proj.techStack && <span className="small text-muted">{proj.techStack}</span>}
+              </div>
+              {proj.description && <p className="mb-0 small text-muted">{proj.description}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {skills.length > 0 && (
+        <div className="mb-4">
+          <h6 className="text-uppercase small fw-bold mb-3" style={{ letterSpacing: "0.08em" }}>Skills</h6>
+          <p className="mb-0 small text-muted">{skills.map((s) => s.name).join(", ")}</p>
+        </div>
+      )}
+
+      {certifications.length > 0 && (
+        <div className="mb-4">
+          <h6 className="text-uppercase small fw-bold mb-3" style={{ letterSpacing: "0.08em" }}>Certifications</h6>
+          {certifications.map((cert) => (
+            <div key={cert.id} className="mb-2 d-flex justify-content-between">
+              <span>{cert.name}{cert.issuer ? `, ${cert.issuer}` : ""}</span>
+              {cert.date && <span className="small text-muted">{cert.date}</span>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {languages.length > 0 && (
+        <div className="mb-4">
+          <h6 className="text-uppercase small fw-bold mb-3" style={{ letterSpacing: "0.08em" }}>Languages</h6>
+          <p className="mb-0 small text-muted">
+            {languages.map((lang) => `${lang.name} (${lang.proficiency})`).join(", ")}
+          </p>
+        </div>
+      )}
+
+      {socialLinks.length > 0 && (
+        <div className="mb-4">
+          <h6 className="text-uppercase small fw-bold mb-3" style={{ letterSpacing: "0.08em" }}>Links</h6>
+          <p className="mb-0 small text-muted">
+            {socialLinks.map((link) => (
+              
+             <a   key={link.id}
+                href={ensureProtocol(link.url)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="me-3"
+              >
+                {displayLink(link.url)}
+              </a>
+            ))}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
