@@ -44,19 +44,21 @@ export function useResume(uid, resumeId) {
     setIsDirty(true);
   };
 
-  const save = async () => {
-    setSaving(true);
-    setSaveError("");
-    try {
-      await updateResume(uid, resumeId, resumeData);
-      setIsDirty(false);
-    } catch (err) {
-      console.error("Failed to save resume:", err);
-      setSaveError("Could not save. Please try again.");
-    } finally {
-      setSaving(false);
-    }
-  };
+const save = async () => {
+  setSaving(true);
+  setSaveError("");
+  try {
+    // eslint-disable-next-line no-unused-vars -- intentionally stripped so id/createdAt aren't re-written into the document
+    const { id, createdAt, ...rest } = resumeData;
+    await updateResume(uid, resumeId, rest);
+    setIsDirty(false);
+  } catch (err) {
+    console.error("Failed to save resume:", err);
+    setSaveError("Could not save. Please try again.");
+  } finally {
+    setSaving(false);
+  }
+};
 
   return {
     resumeData,

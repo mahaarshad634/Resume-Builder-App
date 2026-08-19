@@ -1,10 +1,13 @@
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import ForgotPassword from "../pages/ForgotPassword";
 import Dashboard from "../pages/Dashboard";
-import ResumeEditor from "../pages/ResumeEditor";
 import ProtectedRoute from "./ProtectedRoute";
+import Loader from "../components/Loader";
+
+const ResumeEditor = lazy(() => import("../pages/ResumeEditor"));
 
 export default function AppRoutes() {
   return (
@@ -27,7 +30,9 @@ export default function AppRoutes() {
           path="/resume/:id"
           element={
             <ProtectedRoute>
-              <ResumeEditor />
+              <Suspense fallback={<Loader message="Loading editor..." />}>
+                <ResumeEditor />
+              </Suspense>
             </ProtectedRoute>
           }
         />
